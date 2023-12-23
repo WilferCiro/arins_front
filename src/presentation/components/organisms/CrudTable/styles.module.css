@@ -1,0 +1,28 @@
+.search_bar {
+  margin-bottom: 20px;
+}
+
+.table_container {
+  padding: 20px 30px;
+  border-radius: 10px;
+  backdrop-filter: brightness(95%);
+}
+.actions_cell {
+  display: flex;
+  gap: 5px;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.table_responsive {
+  overflow: auto;
+}
+
+@media (max-width: 767px) {
+  .table_container {
+    padding: 20px 3px;
+    backdrop-filter: brightness(100%);
+  }
+}

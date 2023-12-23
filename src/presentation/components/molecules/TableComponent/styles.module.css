@@ -1,0 +1,29 @@
+
+.title_table {
+  display: none;
+}
+@media (max-width: 767px) {
+  .table thead {
+    display: none;
+  }
+  .table tbody tr {
+    display: flex;
+    flex-direction: column;
+    border: solid 1px gray;
+    width: 100%;
+    backdrop-filter: brightness(80%);
+    border-radius: 10px;
+    margin-bottom: 5px;
+    padding: 5px 10px;
+  }
+  .table tbody tr td {
+    display: flex;
+    gap: 5px;
+    border-top: none !important;
+  }
+  .title_table {
+    display: block;
+    width: 35%;
+    font-weight: bold;
+  }
+}
