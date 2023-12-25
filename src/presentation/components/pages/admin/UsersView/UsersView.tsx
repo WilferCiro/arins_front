@@ -4,36 +4,43 @@ import {
   getCompaniesFormAdd,
   getCompaniesFormEdit,
 } from "@/data/forms/companies.form";
+import { getUsersFormAdd, getUsersFormEdit } from "@/data/forms/users.form";
 import {
   addCompanyService,
   deleteCompanyService,
   editCompanyService,
 } from "@/data/services/companies.services";
-import { getCompaniesTableDefinition } from "@/data/tables/companies.table";
+import {
+  addUserService,
+  deleteUserService,
+  editUserService,
+} from "@/data/services/users.services";
+import { getUsersTableDefinition } from "@/data/tables/users.table";
 import { CompanySchema } from "@/domain/schemas/CompanySchema";
+import { UserSchema } from "@/domain/schemas/UserSchema";
 import PageTitle from "@/presentation/components/atoms/PageTitle";
 import CrudTable from "@/presentation/components/organisms/CrudTable";
 import { Divider } from "@mantine/core";
-import { IconBuilding } from "@tabler/icons-react";
+import { IconBuilding, IconUser, IconUsers } from "@tabler/icons-react";
 import { useMemo } from "react";
 import { useMutation } from "react-query";
 
-const CompaniesView = () => {
-  const columns = useMemo(() => getCompaniesTableDefinition(), []);
-  const formAdd = useMemo(() => getCompaniesFormAdd(), []);
-  const formEdit = useMemo(() => getCompaniesFormEdit(), []);
+const UsersView = () => {
+  const columns = useMemo(() => getUsersTableDefinition(), []);
+  const formAdd = useMemo(() => getUsersFormAdd(), []);
+  const formEdit = useMemo(() => getUsersFormEdit(), []);
 
   const mutationAdd = useMutation({
-    mutationFn: addCompanyService,
+    mutationFn: addUserService,
   });
   const mutationEdit = useMutation({
-    mutationFn: editCompanyService,
+    mutationFn: editUserService,
   });
   const mutationDelete = useMutation({
-    mutationFn: deleteCompanyService,
+    mutationFn: deleteUserService,
   });
 
-  const onDisable = async (original: CompanySchema): Promise<boolean> => {
+  const onDisable = async (original: UserSchema): Promise<boolean> => {
     const res = await mutationEdit.mutateAsync({
       _id: original._id,
       active: !original.active,
@@ -41,19 +48,19 @@ const CompaniesView = () => {
     return res !== null;
   };
 
-  const onDelete = async (original: CompanySchema): Promise<boolean> => {
+  const onDelete = async (original: UserSchema): Promise<boolean> => {
     const res = await mutationDelete.mutateAsync({
       _id: original._id,
     });
     return res !== null;
   };
 
-  const onAdd = async (values: CompanySchema) => {
+  const onAdd = async (values: UserSchema) => {
     const res = await mutationAdd.mutateAsync(values);
     return res !== null;
   };
 
-  const onEdit = async (original: CompanySchema, values: CompanySchema) => {
+  const onEdit = async (original: UserSchema, values: UserSchema) => {
     values._id = original._id;
     console.log(values);
     const res = await mutationEdit.mutateAsync(values);
@@ -63,15 +70,16 @@ const CompaniesView = () => {
   return (
     <>
       <PageTitle
-        title={"Listado de empresas"}
-        subtitle="Administra las empresas de arins"
-        icon={<IconBuilding />}
+        title={"Listado de usuarios"}
+        subtitle="Administra los usuarios de arins"
+        icon={<IconUsers />}
       />
       <Divider m="lg" />
-      <CrudTable<CompanySchema>
+      <CrudTable<UserSchema>
         columns={columns}
-        endpoint={"companies"}
+        endpoint={"users"}
         server={appConfig.API_BACKEND_URL}
+        filterForm={undefined}
         fieldsForms={{
           add: formAdd,
           edit: formEdit,
@@ -87,4 +95,4 @@ const CompaniesView = () => {
   );
 };
 
-export default CompaniesView;
+export default UsersView;

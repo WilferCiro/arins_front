@@ -1,7 +1,7 @@
-import DependenciesView from "@/presentation/components/pages/admin/DependenciesView";
+import DependenciesView from "@/presentation/components/pages/customer/DependenciesView";
 
 export const metadata = {
-  title: "Dependencias",
+  title: "Arins :: Dependencias",
 };
 
 const DependenciesPage = () => {

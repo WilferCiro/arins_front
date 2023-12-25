@@ -32,7 +32,7 @@ const theme = createTheme({
   defaultRadius: "10px",
   fontFamily: "var(--font-monserrat)",
   colors: {
-    primary: generateColors("#9d009d"),
+    primary: generateColors("orangered"),
     secondary: [
       "#00438b",
       "#00438b",

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Column } from "react-table";
 import { CompanySchema } from "@/domain/schemas/CompanySchema";
 import BadgeActive from "@/presentation/components/atoms/BadgeActive/BadgeActive";
+import LinkButton from "@/presentation/components/atoms/LinkButton";
 
 export const getCompaniesTableDefinition = (): Column<CompanySchema>[] => {
   return [
@@ -35,10 +36,15 @@ export const getCompaniesTableDefinition = (): Column<CompanySchema>[] => {
       Header: "Web",
       accessor: "webpage",
       Cell: ({ cell: { value } }) => {
+        if (!value || value.length === 0) {
+          return <>-</>;
+        }
         return (
-          <Link href={value || ""} target="_blank">
-            <Button>Visitar</Button>
-          </Link>
+          <LinkButton
+            href={value || ""}
+            tooltip="Visitar página web"
+            target="_blank"
+          />
         );
       },
     },

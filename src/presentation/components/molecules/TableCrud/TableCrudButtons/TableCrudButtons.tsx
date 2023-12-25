@@ -142,33 +142,21 @@ const TableCrudButtons = <T extends object>({
       <Group gap="xs">
         {actions?.onEdit && (
           <Tooltip label="Editar registro">
-            <ActionIcon
-              onClick={() => openEdit(original)}
-              color="yellow"
-              variant="filled"
-            >
+            <ActionIcon onClick={() => openEdit(original)} variant="light">
               <IconEdit size="1.125rem" />
             </ActionIcon>
           </Tooltip>
         )}
         {actions?.onDelete && (
           <Tooltip label="Eliminar registro">
-            <ActionIcon
-              color="red"
-              variant="filled"
-              onClick={() => openDelete(original)}
-            >
+            <ActionIcon variant="light" onClick={() => openDelete(original)}>
               <IconTrash size="1.125rem" />
             </ActionIcon>
           </Tooltip>
         )}
         {actions?.onDisable && (
           <Tooltip label="Activar/Desactivar registro">
-            <ActionIcon
-              color="blue"
-              variant="filled"
-              onClick={() => openDisable(original)}
-            >
+            <ActionIcon variant="light" onClick={() => openDisable(original)}>
               <IconToggleLeft size="1.125rem" />
             </ActionIcon>
           </Tooltip>

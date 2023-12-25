@@ -11,6 +11,7 @@ import {
 import { Controller } from "react-hook-form";
 import { FormFieldSchema } from "@/domain/schemas/FormFieldSchema";
 import { FormType } from "@/domain/types/FormType";
+import SelectSearchForm from "../../molecules/SelectSearchForm";
 
 interface Props {
   form: FormType;
@@ -80,6 +81,25 @@ const GenericForm = ({ form, fields }: Props) => {
                   {...field}
                   {...props}
                   data={formField.options || []}
+                  value={(field.value?.id || field.value) + ""}
+                />
+              );
+            }}
+          />
+        );
+      case "select_search":
+        return (
+          <Controller
+            name={formField.name}
+            control={form.control}
+            key={formField.name}
+            render={({ field }) => {
+              return (
+                <SelectSearchForm
+                  {...props}
+                  {...field}
+                  ref={field.ref}
+                  endpoint={formField.endpoint}
                   value={(field.value?.id || field.value) + ""}
                 />
               );

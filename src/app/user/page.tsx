@@ -11,7 +11,7 @@ import UserViewPage from "@/presentation/components/pages/User/UserViewPage";
 import { authOptions } from "@/data/config/authConfig";
 
 export const metadata = {
-  title: "Visualización de certificados",
+  title: "Arins :: Visualización de certificados",
 };
 
 const StudentViewPage = async () => {
