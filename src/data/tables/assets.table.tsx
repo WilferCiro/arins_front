@@ -2,6 +2,9 @@
 import getFullDate from "@/domain/adapters/getFullDate";
 import { Column } from "react-table";
 import { AssetSchema } from "@/domain/schemas/AssetSchema";
+import getDateString from "@/domain/adapters/getDateString";
+import getSimpleDate from "@/domain/adapters/getSimpleDate";
+import { getPriceFormat } from "@/domain/adapters/getPriceFormat";
 
 export const getAssetsTableDefinition = (): Column<AssetSchema>[] => {
   return [
@@ -20,6 +23,9 @@ export const getAssetsTableDefinition = (): Column<AssetSchema>[] => {
     {
       Header: "Precio",
       accessor: "price",
+      Cell: ({ cell: { value } }) => {
+        return <>{getPriceFormat(value)}</>;
+      },
     },
     {
       Header: "Categoría",
@@ -36,7 +42,7 @@ export const getAssetsTableDefinition = (): Column<AssetSchema>[] => {
       Header: "Adquirida en",
       accessor: "acquisitionDate",
       Cell: ({ cell: { value } }) => {
-        return <>{getFullDate(value)}</>;
+        return <>{getSimpleDate(value)}</>;
       },
     },
     {

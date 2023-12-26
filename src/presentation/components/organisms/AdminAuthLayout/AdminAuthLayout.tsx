@@ -45,15 +45,20 @@ export default function AdminAuthLayout({
           mobileOpened={mobileOpened}
         />
       </AppShell.Header>
-      <AppShell.Navbar p="md">
-        <CustomNavbar />
+      <AppShell.Navbar p="md" bg="var(--mantine-color-gray-light)">
+        <AppShell.Section grow my="md">
+          <CustomNavbar
+            toggleDesktop={toggleDesktop}
+            desktopOpened={desktopOpened}
+          />
+        </AppShell.Section>
+        <AppShell.Section>
+          <CustomFooter />
+        </AppShell.Section>
       </AppShell.Navbar>
       <AppShell.Main>
         <main>{children}</main>
       </AppShell.Main>
-      <AppShell.Footer>
-        <CustomFooter />
-      </AppShell.Footer>
     </AppShell>
   );
 }

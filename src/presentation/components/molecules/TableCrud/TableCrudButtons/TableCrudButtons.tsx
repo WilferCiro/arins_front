@@ -46,8 +46,8 @@ const TableCrudButtons = <T extends object>({
       setFocusRegister(data);
       const newData = { ...data };
       Object.keys(data).map((key) => {
-        if (data[key as keyof T] && (data[key as keyof T] as any)?.id) {
-          newData[key as keyof T] = (data[key as keyof T] as any).id;
+        if (data[key as keyof T] && (data[key as keyof T] as any)?._id) {
+          newData[key as keyof T] = (data[key as keyof T] as any)._id;
         } else {
           newData[key as keyof T] = data[key as keyof T];
         }

@@ -1,10 +1,19 @@
 "use client";
 import { appConfig } from "@/data/config/app_config";
-import { getAssetsFormAdd } from "@/data/forms/assets.form";
+import {
+  getAssetsFormAdd,
+  getAssetsFormEdit,
+  getAssetsFormFilter,
+} from "@/data/forms/assets.form";
 import {
   getDependenciesFormAdd,
   getDependenciesFormEdit,
 } from "@/data/forms/dependencies.form";
+import {
+  addAssetService,
+  deleteAssetService,
+  editAssetService,
+} from "@/data/services/assets.services";
 import {
   addDependencyService,
   editDependencyService,
@@ -23,13 +32,17 @@ import { useMutation } from "react-query";
 const AssetsView = () => {
   const columns = useMemo(() => getAssetsTableDefinition(), []);
   const formAdd = useMemo(() => getAssetsFormAdd(), []);
-  const formEdit = useMemo(() => getDependenciesFormEdit(), []);
+  const formEdit = useMemo(() => getAssetsFormEdit(), []);
+  const formFilter = useMemo(() => getAssetsFormFilter(), []);
 
   const mutationAdd = useMutation({
-    mutationFn: addDependencyService,
+    mutationFn: addAssetService,
   });
   const mutationEdit = useMutation({
-    mutationFn: editDependencyService,
+    mutationFn: editAssetService,
+  });
+  const mutationDelete = useMutation({
+    mutationFn: deleteAssetService,
   });
 
   const onAdd = async (values: AssetSchema) => {
@@ -45,6 +58,13 @@ const AssetsView = () => {
     return res !== null;
   };
 
+  const onDelete = async (original: AssetSchema): Promise<boolean> => {
+    const res = await mutationDelete.mutateAsync({
+      _id: original._id,
+    });
+    return res !== null;
+  };
+
   return (
     <>
       <PageTitle
@@ -57,6 +77,7 @@ const AssetsView = () => {
         columns={columns}
         endpoint={"assets"}
         server={appConfig.API_BACKEND_URL}
+        filterForm={formFilter}
         fieldsForms={{
           add: formAdd,
           edit: formEdit,
@@ -64,6 +85,7 @@ const AssetsView = () => {
         actions={{
           onAdd: onAdd,
           onEdit: onEdit,
+          onDelete: onDelete,
         }}
       />
     </>

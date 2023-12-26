@@ -12,6 +12,18 @@ import { Controller } from "react-hook-form";
 import { FormFieldSchema } from "@/domain/schemas/FormFieldSchema";
 import { FormType } from "@/domain/types/FormType";
 import SelectSearchForm from "../../molecules/SelectSearchForm";
+import { DateInput, DateValue } from "@mantine/dates";
+import dayjs from "dayjs";
+
+const formatDate = (date: DateValue | undefined): DateValue | undefined => {
+  if (typeof date === "string" && date !== "") {
+    return dayjs(date).toDate();
+  }
+  if (date === null) {
+    return undefined;
+  }
+  return date;
+};
 
 interface Props {
   form: FormType;
@@ -32,8 +44,6 @@ const GenericForm = ({ form, fields }: Props) => {
     };
     switch (formField.type) {
       case "email":
-      case "ethereum":
-      case "ipfs":
       case "text":
         return (
           <TextInput
@@ -80,8 +90,10 @@ const GenericForm = ({ form, fields }: Props) => {
                 <Select
                   {...field}
                   {...props}
+                  clearable={formField.clearable || false}
                   data={formField.options || []}
                   value={(field.value?.id || field.value) + ""}
+                  searchable
                 />
               );
             }}
@@ -126,6 +138,26 @@ const GenericForm = ({ form, fields }: Props) => {
                 onChange={(e) => field.onChange(e.target.checked)}
               />
             )}
+          />
+        );
+      case "date":
+        return (
+          <Controller
+            name={formField.name}
+            control={form.control}
+            key={formField.name}
+            render={({ field }) => {
+              return (
+                <DateInput
+                  {...field}
+                  {...props}
+                  clearable={formField.clearable}
+                  onChange={field.onChange}
+                  value={formatDate(field.value)}
+                  maxDate={formField.showFuture ? undefined : new Date()}
+                />
+              );
+            }}
           />
         );
     }

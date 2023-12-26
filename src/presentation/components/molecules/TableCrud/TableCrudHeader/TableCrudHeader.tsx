@@ -57,7 +57,7 @@ const TableCrudHeader = <T extends object>({
       <Grid justify="space-between" align="center">
         <Grid.Col span={6}>
           <Flex gap={3}>
-            <div style={{ width: "450px" }}>
+            <div style={{ width: "450px", display: "flex" }}>
               <GenericForm form={formFilter} fields={fieldsFilter} />
             </div>
           </Flex>

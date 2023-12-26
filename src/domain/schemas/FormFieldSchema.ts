@@ -24,18 +24,12 @@ interface FormFieldCommonSchema {
 }
 export type FormFieldSchema =
   | (FormFieldCommonSchema & {
-      type:
-        | "text"
-        | "textarea"
-        | "email"
-        | "password"
-        | "checkbox"
-        | "ipfs"
-        | "ethereum";
+      type: "text" | "textarea" | "email" | "password" | "checkbox";
     })
   | (FormFieldCommonSchema & {
       type: "select";
       service?: string;
+      clearable?: boolean;
       options?: { value: string; label: string }[];
     })
   | (FormFieldCommonSchema & {
@@ -51,4 +45,5 @@ export type FormFieldSchema =
   | (FormFieldCommonSchema & {
       type: "date" | "datetime";
       showFuture?: boolean;
+      clearable?: boolean;
     });

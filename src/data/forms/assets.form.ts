@@ -53,7 +53,7 @@ export const getAssetsFormAdd = (): FormFieldSchema[] => {
     },
     {
       type: "select",
-      name: "assement",
+      name: "assessment",
       label: "Valoración",
       placeholder: "Seleccione la valoración",
       required: true,
@@ -88,6 +88,7 @@ export const getAssetsFormAdd = (): FormFieldSchema[] => {
       name: "acquisitionDate",
       label: "Fecha de adquisición",
       placeholder: "Seleccione la fecha de adquisición del activo",
+      showFuture: false,
     },
   ];
 
@@ -95,3 +96,61 @@ export const getAssetsFormAdd = (): FormFieldSchema[] => {
 };
 
 export const getAssetsFormEdit = getAssetsFormAdd;
+
+export const getAssetsFormFilter = (): FormFieldSchema[] => {
+  const fields: FormFieldSchema[] = [
+    {
+      type: "text",
+      name: "search",
+      placeholder: "Ingrese un filtro",
+      required: false,
+    },
+    {
+      type: "date",
+      name: "acquisitionDate",
+      placeholder: "Seleccione la fecha de adquisición del activo",
+      clearable: true,
+      showFuture: false,
+    },
+    {
+      type: "select",
+      name: "category",
+      clearable: true,
+      placeholder: "Seleccione la categoría del activo",
+      initialValue: AssetsCategories[0].value,
+      options: AssetsCategories,
+    },
+    {
+      type: "select_search",
+      name: "dependency_id",
+      placeholder: "Seleccione la dependencia",
+      endpoint: appConfig.API_BACKEND_URL + "/dependencies/select",
+    },
+    {
+      type: "select",
+      name: "status",
+      clearable: true,
+      placeholder: "Seleccione la dependencia",
+      options: (
+        Object.keys(AssetStatus) as Array<keyof typeof AssetStatus>
+      ).map((key) => ({
+        label: AssetStatus[key],
+        value: key,
+      })),
+    },
+    {
+      type: "select",
+      name: "assessment",
+      clearable: true,
+      placeholder: "Seleccione la valoración",
+      options: (
+        Object.keys(AssetAssessment) as Array<keyof typeof AssetAssessment>
+      ).map((key) => ({
+        label: AssetAssessment[key],
+        value: key,
+      })),
+    },
+  ];
+
+  return fields;
+};

@@ -26,7 +26,7 @@ export const getDependenciesTableDefinition =
         Header: "Compañía",
         accessor: "company",
         Cell: ({ cell: { value } }) => {
-          return <>{value.name}</>;
+          return <>{value?.name}</>;
         },
       },
       {

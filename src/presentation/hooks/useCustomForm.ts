@@ -3,7 +3,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import * as Yup from "yup";
 import { FormFieldSchema } from "@/domain/schemas/FormFieldSchema";
-import { Web3 } from "web3";
 
 const getInitialValues = (fields: FormFieldSchema[]) => {
   const values = [];
@@ -12,8 +11,6 @@ const getInitialValues = (fields: FormFieldSchema[]) => {
   }
   return Object.fromEntries(values);
 };
-
-const ipfsAddressRegex = /^ipfs:\/\/([a-zA-Z0-9]{46,})$/;
 
 const getValidations = (fields: FormFieldSchema[]) => {
   const values: { [key: string]: any } = {};
@@ -55,30 +52,6 @@ const getValidations = (fields: FormFieldSchema[]) => {
           `${field.label} debe ser un correo electrónico válido`
         );
         break;
-      case "ethereum":
-        validator = Yup.string().test(
-          "ethereum",
-          "La dirección Ethereum no es válida",
-          function (value) {
-            if (value) {
-              return Web3.utils.isAddress(value);
-            }
-            return true;
-          }
-        );
-        break;
-      case "ipfs":
-        validator = Yup.string().test(
-          "ipfs",
-          "Debe ser una dirección ipfs (ipfs://CID)",
-          function (value) {
-            if (value) {
-              return ipfsAddressRegex.test(value);
-            }
-            return true;
-          }
-        );
-        break;
       default:
         validator = Yup.string();
         break;
@@ -91,6 +64,8 @@ const getValidations = (fields: FormFieldSchema[]) => {
           `${field.label} debe ser seleccionado.`
         );
       }
+    } else {
+      validator = validator.nullable();
     }
     values[field.name] = validator;
   });
