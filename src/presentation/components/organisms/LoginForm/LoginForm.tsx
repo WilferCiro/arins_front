@@ -37,8 +37,6 @@ const LoginForm = () => {
     mutationFn: signInService,
     onSuccess: (result: { token: string } | null) => {
       if (result?.token) {
-        nprogress.reset();
-        nprogress.start();
         login(result.token);
         router.push("/customer/");
       }

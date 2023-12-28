@@ -24,12 +24,14 @@ import { AssetSchema } from "@/domain/schemas/AssetSchema";
 import { DependencySchema } from "@/domain/schemas/DependencySchema";
 import PageTitle from "@/presentation/components/atoms/PageTitle";
 import CrudTable from "@/presentation/components/organisms/CrudTable";
+import { ContextAuth, useAuth } from "@/presentation/context/ContextAuth";
 import { Divider } from "@mantine/core";
 import { IconAsset, IconBuildingFortress } from "@tabler/icons-react";
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { useMutation } from "react-query";
 
 const AssetsView = () => {
+  const { currentCompany } = useAuth();
   const columns = useMemo(() => getAssetsTableDefinition(), []);
   const formAdd = useMemo(() => getAssetsFormAdd(), []);
   const formEdit = useMemo(() => getAssetsFormEdit(), []);
@@ -46,14 +48,12 @@ const AssetsView = () => {
   });
 
   const onAdd = async (values: AssetSchema) => {
-    values.dependency_id = "658738b4755b1badd755aaa9";
     const res = await mutationAdd.mutateAsync(values);
     return res !== null;
   };
 
   const onEdit = async (original: AssetSchema, values: AssetSchema) => {
     values._id = original._id;
-    console.log(values);
     const res = await mutationEdit.mutateAsync(values);
     return res !== null;
   };
@@ -69,7 +69,7 @@ const AssetsView = () => {
     <>
       <PageTitle
         title={"Listado de activos"}
-        subtitle="Administra los activos de {empresa}"
+        subtitle={`Administra los activos de ${currentCompany?.name}`}
         icon={<IconAsset />}
       />
       <Divider m="lg" />

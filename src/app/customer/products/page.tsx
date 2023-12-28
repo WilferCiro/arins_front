@@ -1,4 +1,4 @@
-import AssetsView from "@/presentation/components/pages/customer/AssetsView";
+import ProductsView from "@/presentation/components/pages/customer/Sell/ProductsView";
 
 export const metadata = {
   title: "Arins :: Productos",
@@ -7,7 +7,7 @@ export const metadata = {
 const ProductsPage = () => {
   return (
     <>
-      <AssetsView />
+      <ProductsView />
     </>
   );
 };

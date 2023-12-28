@@ -1,7 +1,5 @@
 // Mantine
-import { UserAuthSchema } from "@/domain/schemas/UserAuthSchema";
 import { notifications } from "@mantine/notifications";
-import { getSession } from "next-auth/react";
 import constantStore from "../constantStore";
 
 interface FetchClientProps<T> {

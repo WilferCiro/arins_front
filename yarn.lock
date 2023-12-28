@@ -1588,6 +1588,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.18.23.tgz#b6e934fe427eb7081d0015aad070acb3373c3c90"
   integrity sha512-XAMpaw1s1+6zM+jn2tmw8MyaRDIJfXxqmIQIS0HfoGYPuf7dUWeiUKopwq13KFX9lEp1+THGtlaaYx39Nxr58g==
 
+"@types/nprogress@^0.2.1":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@types/nprogress/-/nprogress-0.2.3.tgz#b2150b054a13622fabcba12cf6f0b54c48b14287"
+  integrity sha512-k7kRA033QNtC+gLc4VPlfnue58CM1iQLgn1IMAU8VPHGOj7oIHPp9UlhedEnD/Gl8evoCjwkZjlBORtZ3JByUA==
+
 "@types/parse-json@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
@@ -5083,6 +5088,15 @@ next@^14.0.4:
     "@next/swc-win32-ia32-msvc" "14.0.4"
     "@next/swc-win32-x64-msvc" "14.0.4"
 
+nextjs-toploader@^1.6.4:
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/nextjs-toploader/-/nextjs-toploader-1.6.4.tgz#1a498fc8c9b073d937fb932382aeb5bb1d007339"
+  integrity sha512-KYLQ+0MvGdFk9JwOQfRtaYBAsyuX67Ca5QTa51RGNO4gQx64KLSE+ryHjUQ5LcDczHotp0l32GgksQW9vucUkw==
+  dependencies:
+    "@types/nprogress" "^0.2.1"
+    nprogress "^0.2.0"
+    prop-types "^15.8.1"
+
 node-addon-api@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-2.0.2.tgz#432cfa82962ce494b132e9d72a15b29f71ff5d32"
@@ -5126,6 +5140,11 @@ npm-run-path@^4.0.1:
   integrity sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==
   dependencies:
     path-key "^3.0.0"
+
+nprogress@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/nprogress/-/nprogress-0.2.0.tgz#cb8f34c53213d895723fcbab907e9422adbcafb1"
+  integrity sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==
 
 number-to-bn@1.7.0:
   version "1.7.0"

@@ -9,12 +9,14 @@ import { getStoresTableDefinition } from "@/data/tables/stores.table";
 import { StoreSchema } from "@/domain/schemas/StoreSchema";
 import PageTitle from "@/presentation/components/atoms/PageTitle";
 import CrudTable from "@/presentation/components/organisms/CrudTable";
+import { useAuth } from "@/presentation/context/ContextAuth";
 import { Divider } from "@mantine/core";
 import { IconBuildingStore } from "@tabler/icons-react";
 import { useMemo } from "react";
 import { useMutation } from "react-query";
 
 const StoresView = () => {
+  const { currentCompany } = useAuth();
   const columns = useMemo(() => getStoresTableDefinition(), []);
   const formAdd = useMemo(() => getStoresFormAdd(), []);
   const formEdit = useMemo(() => getStoresFormEdit(), []);
@@ -28,14 +30,12 @@ const StoresView = () => {
 
   const onAdd = async (values: StoreSchema) => {
     values.active = true;
-    values.company_id = "658738b4755b1badd755aaa9";
     const res = await mutationAdd.mutateAsync(values);
     return res !== null;
   };
 
   const onEdit = async (original: StoreSchema, values: StoreSchema) => {
     values._id = original._id;
-    console.log(values);
     const res = await mutationEdit.mutateAsync(values);
     return res !== null;
   };
@@ -44,7 +44,7 @@ const StoresView = () => {
     <>
       <PageTitle
         title={"Listado de bodegas"}
-        subtitle="Administra las bodegas de {empresa}"
+        subtitle={`Administra las bodegas de ${currentCompany?.name}`}
         icon={<IconBuildingStore />}
       />
       <Divider m="lg" />

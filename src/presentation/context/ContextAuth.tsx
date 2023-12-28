@@ -15,23 +15,28 @@ interface ContextInterface {
 }
 
 export const ContextAuth = createContext<ContextInterface>({
-  tokenData: undefined,
-  currentCompany: undefined,
+  tokenData: getTokenData() || undefined,
+  currentCompany:
+    getTokenData()?.companies?.filter((company) => company.active)?.[0] ||
+    undefined,
   login: (token: string) => {},
   logout: () => {},
 });
 
 interface IAuthProvider {
   children: ReactElement;
+  cookies: { name: string; value: string }[] | undefined;
 }
 
-const ContextProviderAuth = ({ children }: IAuthProvider) => {
+const ContextProviderAuth = ({ children, cookies }: IAuthProvider) => {
   const [tokenData, setTokenData] = useState<TokenSchema | undefined>(
-    getTokenData() || undefined
+    getTokenData(cookies) || undefined
   );
 
   const getActiveCompany = (): { _id: string; name: string } | undefined => {
-    return getTokenData()?.companies?.filter((company) => company.active)?.[0];
+    return getTokenData(cookies)?.companies?.filter(
+      (company) => company.active
+    )?.[0];
   };
 
   const [currentCompany, setCurrentCompany] = useState<
@@ -40,7 +45,7 @@ const ContextProviderAuth = ({ children }: IAuthProvider) => {
 
   const login = (token: string) => {
     constantStore.token.set(token);
-    setTokenData(getTokenData() || undefined);
+    setTokenData(getTokenData(cookies) || undefined);
     setCurrentCompany(getActiveCompany() || undefined);
   };
 

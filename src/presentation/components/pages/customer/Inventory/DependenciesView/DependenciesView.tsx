@@ -12,14 +12,14 @@ import { getDependenciesTableDefinition } from "@/data/tables/dependencies.table
 import { DependencySchema } from "@/domain/schemas/DependencySchema";
 import PageTitle from "@/presentation/components/atoms/PageTitle";
 import CrudTable from "@/presentation/components/organisms/CrudTable";
-import { ContextAuth } from "@/presentation/context/ContextAuth";
+import { ContextAuth, useAuth } from "@/presentation/context/ContextAuth";
 import { Divider } from "@mantine/core";
 import { IconBuildingFortress } from "@tabler/icons-react";
 import { useContext, useMemo } from "react";
 import { useMutation } from "react-query";
 
 const DependenciesView = () => {
-  const { currentCompany } = useContext(ContextAuth);
+  const { currentCompany } = useAuth();
   const columns = useMemo(() => getDependenciesTableDefinition(), []);
   const formAdd = useMemo(() => getDependenciesFormAdd(), []);
   const formEdit = useMemo(() => getDependenciesFormEdit(), []);
@@ -33,7 +33,6 @@ const DependenciesView = () => {
 
   const onAdd = async (values: DependencySchema) => {
     values.active = true;
-    values.company_id = currentCompany?._id || "";
     const res = await mutationAdd.mutateAsync(values);
     return res !== null;
   };
@@ -52,7 +51,7 @@ const DependenciesView = () => {
     <>
       <PageTitle
         title={"Listado de dependencias"}
-        subtitle="Administra las dependencias de {empresa}"
+        subtitle={`Administra las dependencias de ${currentCompany?.name}`}
         icon={<IconBuildingFortress />}
       />
       <Divider m="lg" />

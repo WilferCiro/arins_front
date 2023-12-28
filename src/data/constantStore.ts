@@ -1,11 +1,8 @@
-import { UserSchema } from "@/domain/schemas/UserSchema";
 import Cookie from "js-cookie";
-import CryptoJS from "crypto-js";
 
 const keyList = {
   TOKEN: "token",
   THEME: "theme",
-  USER: "user",
 };
 
 export const encrypt = (data: string) => {
@@ -18,8 +15,22 @@ export const decrypt = (data: string) => {
   // return bytes.toString(CryptoJS.enc.Utf8);
 };
 
-const getItem = (key: string) => {
+const getCookieFromDocument = (key: string): string | null => {
+  const cookieString = document.cookie;
+  const keyPattern = new RegExp(`${key}=([^;]*)`);
+  const keyMatch = cookieString.match(keyPattern);
+  if (keyMatch && keyMatch.length > 1) {
+    return keyMatch[1];
+  } else {
+    return null;
+  }
+};
+
+const getItem = (key: string, cookies?: { name: string; value: string }[]) => {
   let item = Cookie.get(key);
+  if (!item && cookies) {
+    item = cookies.find((cookie) => cookie.name === key)?.value;
+  }
   if (!item) {
     return undefined;
   }
@@ -42,7 +53,8 @@ const removeItem = (key: string) => Cookie.remove(key);
 
 const ConstantStore = () => ({
   token: {
-    get: () => getItem(keyList.TOKEN),
+    get: (cookies?: { name: string; value: string }[]) =>
+      getItem(keyList.TOKEN, cookies),
     set: (token: string) => setItem<string>(keyList.TOKEN, token),
     remove: () => removeItem(keyList.TOKEN),
   },

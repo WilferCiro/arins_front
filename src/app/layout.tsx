@@ -7,12 +7,11 @@ import "@mantine/notifications/styles.css";
 import "@mantine/nprogress/styles.css";
 import "@mantine/dates/styles.css";
 
-// Web3
-
 // Custom
 import AllProviders from "@/presentation/components/organisms/AllProviders/AllProviders";
 import "./globals.css";
-import Head from "next/head";
+import { cookies } from "next/headers";
+import NextTopLoader from "nextjs-toploader";
 
 const inter = Montserrat({
   subsets: ["latin"],
@@ -35,10 +34,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const cookieStore = cookies();
   return (
     <html lang="en" className={inter.className}>
       <body>
-        <AllProviders>{children}</AllProviders>
+        <NextTopLoader color="orangered" />
+        <AllProviders cookies={cookieStore.getAll()}>{children}</AllProviders>
       </body>
     </html>
   );

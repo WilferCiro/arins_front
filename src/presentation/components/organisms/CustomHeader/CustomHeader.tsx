@@ -43,7 +43,6 @@ const CustomHeader = ({
   const dark = colorScheme === "dark";
 
   const closeSession = () => {
-    nprogress.start();
     logout();
     router.replace("/login");
   };

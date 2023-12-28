@@ -1,5 +1,5 @@
 import { refetchTokenService } from "@/data/services/auth.services";
-import { ContextAuth } from "@/presentation/context/ContextAuth";
+import { ContextAuth, useAuth } from "@/presentation/context/ContextAuth";
 import { Button, Combobox, Group, useCombobox } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { useContext } from "react";
@@ -7,7 +7,7 @@ import { useMutation } from "react-query";
 import { useRouter } from "next/navigation";
 
 const CompanySelector = () => {
-  const { currentCompany, tokenData, login } = useContext(ContextAuth);
+  const { currentCompany, tokenData, login } = useAuth();
   const router = useRouter();
 
   const combobox = useCombobox({
