@@ -5,19 +5,14 @@ import { useRouter } from "next/navigation";
 import {
   IconDoor,
   IconMoonStars,
-  IconPlus,
   IconSun,
   IconUser,
 } from "@tabler/icons-react";
 import {
   Avatar,
   Burger,
-  Button,
-  Combobox,
   Group,
   Menu,
-  Select,
-  useCombobox,
   useMantineColorScheme,
 } from "@mantine/core";
 
@@ -25,6 +20,9 @@ import {
 import { signOut } from "next-auth/react";
 import { nprogress } from "@mantine/nprogress";
 import Image from "next/image";
+import CompanySelector from "../../molecules/CompanySelector/CompanySelector";
+import { useContext } from "react";
+import { ContextAuth } from "@/presentation/context/ContextAuth";
 
 interface Props {
   toggleDesktop?: () => void;
@@ -39,16 +37,14 @@ const CustomHeader = ({
   toggleMobile,
   mobileOpened,
 }: Props) => {
-  const combobox = useCombobox({
-    onDropdownClose: () => combobox.resetSelectedOption(),
-  });
+  const { logout } = useContext(ContextAuth);
   const router = useRouter();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
 
   const closeSession = () => {
     nprogress.start();
-    signOut();
+    logout();
     router.replace("/login");
   };
 
@@ -81,36 +77,7 @@ const CustomHeader = ({
       </Group>
 
       <Group>
-        <Combobox
-          store={combobox}
-          width={250}
-          position="bottom-start"
-          withArrow
-          onOptionSubmit={(val) => {
-            combobox.closeDropdown();
-          }}
-        >
-          <Combobox.Target>
-            <Button onClick={() => combobox.toggleDropdown()} variant="light">
-              Compañía ASDF
-            </Button>
-          </Combobox.Target>
-
-          <Combobox.Dropdown>
-            <Combobox.Options>
-              <Combobox.Option value={"asdf"} key={"asdf"}>
-                ASDF
-              </Combobox.Option>
-            </Combobox.Options>
-            <Combobox.Footer>
-              <Button variant="light" color="green">
-                <Group>
-                  <IconPlus /> Agregar compañía
-                </Group>
-              </Button>
-            </Combobox.Footer>
-          </Combobox.Dropdown>
-        </Combobox>
+        <CompanySelector />
         <Menu width={200} shadow="md">
           <Menu.Target>
             <Avatar radius="xl" color="cyan">

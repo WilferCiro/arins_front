@@ -1,4 +1,4 @@
-import UserAuthLayout from "@/presentation/components/organisms/UserAuthLayout";
+import UserAuthLayout from "@/presentation/components/templates/UserAuthLayout";
 
 export default function RootLayout({
   children,

@@ -1,41 +1,33 @@
 "use client";
 
 // Nextjs y react
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 import { useMutation } from "react-query";
 
 // web3
-import { MetaMaskConnector } from "wagmi/connectors/metaMask";
-import { disconnect } from "@wagmi/core";
-import { useAccount, useConnect } from "wagmi";
-import detectEthereumProvider from "@metamask/detect-provider";
 
 // Mantine
-import { Button, Card, Divider, List, Space, ThemeIcon } from "@mantine/core";
-import {
-  IconBrandGoogle,
-  IconCheck,
-  IconHelp,
-  IconShieldCheck,
-} from "@tabler/icons-react";
+import { Card, Divider, Space, ThemeIcon } from "@mantine/core";
+import { IconBrandGoogle, IconShieldCheck } from "@tabler/icons-react";
 import { nprogress } from "@mantine/nprogress";
-import { notifications } from "@mantine/notifications";
 
 // Custom
 import style from "./style.module.css";
 import AsyncButton from "../../atoms/AsyncButton";
 import AppLogo from "../../atoms/AppLogo";
-import { signInService } from "@/data/services/auth.services";
-import { checkIsAdmin } from "@/domain/utils/auth.utils";
+import {
+  LoginServiceProps,
+  signInService,
+} from "@/data/services/auth.services";
 import GenericForm from "../GenericForm";
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { getLoginFormDefinition } from "@/data/forms/login.form";
 import { useCustomForm } from "@/presentation/hooks/useCustomForm";
 import { LoginSchema } from "@/domain/schemas/LoginSchema";
+import { ContextAuth } from "@/presentation/context/ContextAuth";
 
 const LoginForm = () => {
+  const { login } = useContext(ContextAuth);
   const fieldsForm = useMemo(() => getLoginFormDefinition(), []);
   const { form } = useCustomForm<LoginSchema>(fieldsForm);
 
@@ -43,16 +35,22 @@ const LoginForm = () => {
 
   const mutation = useMutation({
     mutationFn: signInService,
-    onError: (error: { message: string }) => {
-      notifications.show({
-        color: "red",
-        message: error?.message,
-      });
+    onSuccess: (result: { token: string } | null) => {
+      if (result?.token) {
+        nprogress.reset();
+        nprogress.start();
+        login(result.token);
+        router.push("/customer/");
+      }
     },
   });
 
   const onFinish = async () => {
-    router.push("/admin");
+    await form.trigger();
+    const valid = form.formState.isValid;
+    if (valid) {
+      mutation.mutate(form.getValues() as LoginServiceProps);
+    }
   };
 
   return (

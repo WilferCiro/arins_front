@@ -1,4 +1,4 @@
-import AdminAuthLayout from "@/presentation/components/organisms/AdminAuthLayout";
+import AdminAuthLayout from "@/presentation/components/templates/AdminAuthLayout";
 
 export default function RootLayout({
   children,

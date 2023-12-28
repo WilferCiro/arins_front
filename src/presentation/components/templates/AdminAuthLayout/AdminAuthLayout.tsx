@@ -3,21 +3,13 @@
 // Nextjs and react
 
 // Mantine
-import {
-  AppShell,
-  Burger,
-  Card,
-  Group,
-  NavLink,
-  Skeleton,
-} from "@mantine/core";
+import { AppShell } from "@mantine/core";
 
 // Custom
-import CustomHeader from "../../molecules/CustomHeader/CustomHeader";
-import CustomFooter from "../../molecules/CustomFooter/CustomFooter";
+import CustomHeader from "../../organisms/CustomHeader/CustomHeader";
+import CustomFooter from "../../organisms/CustomFooter/CustomFooter";
 import { useDisclosure } from "@mantine/hooks";
-import { IconHome2 } from "@tabler/icons-react";
-import CustomNavbar from "../../molecules/CustomNavbar";
+import CustomNavbar from "../../organisms/CustomNavbar";
 
 export default function AdminAuthLayout({
   children,

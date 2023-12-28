@@ -2,6 +2,7 @@
 import { UserAuthSchema } from "@/domain/schemas/UserAuthSchema";
 import { notifications } from "@mantine/notifications";
 import { getSession } from "next-auth/react";
+import constantStore from "../constantStore";
 
 interface FetchClientProps<T> {
   endpoint: string;
@@ -11,7 +12,7 @@ interface FetchClientProps<T> {
   isFile?: boolean;
   fileName?: string;
   customHeaders?: any;
-  hasToken?: boolean;
+  noToken?: boolean;
 }
 
 export const fetchClient = async <T, U>({
@@ -22,18 +23,15 @@ export const fetchClient = async <T, U>({
   isFile,
   fileName,
   customHeaders,
-  hasToken,
+  noToken,
 }: FetchClientProps<T>): Promise<U | null> => {
   const headers: any = {
     "Content-Type": "application/json",
     ...(customHeaders || {}),
   };
-  if (hasToken) {
-    const session = await getSession();
-    if (session) {
-      const token = (session.user as UserAuthSchema)?.token;
-      headers["authorization"] = 'Bearer ' + token;
-    }
+  if (noToken !== true || noToken === undefined) {
+    const token = constantStore.token.get();
+    headers["authorization"] = "Bearer " + token;
   }
   let newEndpoint = endpoint;
   if (params) {

@@ -6,7 +6,7 @@
 import { AppShell } from "@mantine/core";
 
 // Custom
-import CustomHeader from "../../molecules/CustomHeader/CustomHeader";
+import CustomHeader from "../../organisms/CustomHeader/CustomHeader";
 import CustomFooter from "../../molecules/CustomFooter/CustomFooter";
 
 export default function UserAuthLayout({
@@ -15,10 +15,7 @@ export default function UserAuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AppShell
-      header={{ height: 80 }}
-      padding="md"
-    >
+    <AppShell header={{ height: 80 }} padding="md">
       <AppShell.Header>
         <CustomHeader />
       </AppShell.Header>

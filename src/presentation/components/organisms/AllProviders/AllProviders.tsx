@@ -14,6 +14,7 @@ import { WagmiConfig, createConfig, configureChains, mainnet } from "wagmi";
 
 // Custom
 import RouterTransition from "@/presentation/components/atoms/RouterTransition";
+import { ContextProviderAuth } from "@/presentation/context/ContextAuth";
 
 const { publicClient, webSocketPublicClient } = configureChains(
   [mainnet],
@@ -56,15 +57,17 @@ export default function AllProviders({
   const queryClient = new QueryClient();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <WagmiConfig config={config}>
-        <ColorSchemeScript />
-        <MantineProvider theme={theme}>
-          <Notifications position="top-center" limit={3} zIndex={1000} />
-          <RouterTransition />
-          {children}
-        </MantineProvider>
-      </WagmiConfig>
-    </QueryClientProvider>
+    <ContextProviderAuth>
+      <QueryClientProvider client={queryClient}>
+        <WagmiConfig config={config}>
+          <ColorSchemeScript />
+          <MantineProvider theme={theme}>
+            <Notifications position="top-center" limit={3} zIndex={1000} />
+            <RouterTransition />
+            {children}
+          </MantineProvider>
+        </WagmiConfig>
+      </QueryClientProvider>
+    </ContextProviderAuth>
   );
 }
