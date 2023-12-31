@@ -19,11 +19,15 @@ const PageTitle = ({ title, subtitle, icon }: Props) => {
   return (
     <div className={style.title}>
       <div className={style.icon}>
-        {icon && <>{cloneElement(icon, { size: "45px" })}</>}
+        {icon && <>{cloneElement(icon, { size: "50px" })}</>}
       </div>
       <div>
         <Title order={2}>{title}</Title>
-        {subtitle && <Title order={4}>{subtitle}</Title>}
+        {subtitle && (
+          <Title order={4} c="dimmed">
+            {subtitle}
+          </Title>
+        )}
       </div>
     </div>
   );

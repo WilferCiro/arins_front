@@ -2,6 +2,7 @@
 
 import {
   Checkbox,
+  MultiSelect,
   NumberInput,
   PasswordInput,
   Select,
@@ -11,6 +12,27 @@ import {
 import { Controller } from "react-hook-form";
 import { FormFieldSchema } from "@/domain/schemas/FormFieldSchema";
 import { FormType } from "@/domain/types/FormType";
+import SelectSearchForm from "../../molecules/SelectSearchForm";
+import { DateInput, DateValue } from "@mantine/dates";
+import dayjs from "dayjs";
+import MultiSelectSearchForm from "../../molecules/MultiSelectSearchForm";
+
+const formatDate = (date: DateValue | undefined): DateValue | undefined => {
+  if (typeof date === "string" && date !== "") {
+    return dayjs(date).toDate();
+  }
+  if (date === null) {
+    return undefined;
+  }
+  return date;
+};
+
+const formatStringArray = (value: string | string[]) => {
+  if (typeof value === "string") {
+    return value !== "" ? [value] : [];
+  }
+  return value || [];
+};
 
 interface Props {
   form: FormType;
@@ -31,8 +53,6 @@ const GenericForm = ({ form, fields }: Props) => {
     };
     switch (formField.type) {
       case "email":
-      case "ethereum":
-      case "ipfs":
       case "text":
         return (
           <TextInput
@@ -79,8 +99,70 @@ const GenericForm = ({ form, fields }: Props) => {
                 <Select
                   {...field}
                   {...props}
+                  clearable={formField.clearable || false}
                   data={formField.options || []}
+                  value={(field.value?._id || field.value) + ""}
+                  searchable
+                />
+              );
+            }}
+          />
+        );
+      case "select_search":
+        return (
+          <Controller
+            name={formField.name}
+            control={form.control}
+            key={formField.name}
+            render={({ field }) => {
+              return (
+                <SelectSearchForm
+                  {...props}
+                  {...field}
+                  ref={field.ref}
+                  endpoint={formField.endpoint}
                   value={(field.value?.id || field.value) + ""}
+                />
+              );
+            }}
+          />
+        );
+      case "multiselect":
+        return (
+          <Controller
+            name={formField.name}
+            control={form.control}
+            key={formField.name}
+            render={({ field }) => {
+              return (
+                <MultiSelect
+                  {...field}
+                  {...props}
+                  clearable={formField.clearable || false}
+                  data={formField.options || []}
+                  value={formatStringArray(field.value)}
+                  onChange={(value) => field.onChange(formatStringArray(value))}
+                  searchable
+                />
+              );
+            }}
+          />
+        );
+      case "multiselect_search":
+        return (
+          <Controller
+            name={formField.name}
+            control={form.control}
+            key={formField.name}
+            render={({ field }) => {
+              return (
+                <MultiSelectSearchForm
+                  {...props}
+                  {...field}
+                  ref={field.ref}
+                  endpoint={formField.endpoint}
+                  value={formatStringArray(field.value)}
+                  onChange={(value) => field.onChange(formatStringArray(value))}
                 />
               );
             }}
@@ -106,6 +188,26 @@ const GenericForm = ({ form, fields }: Props) => {
                 onChange={(e) => field.onChange(e.target.checked)}
               />
             )}
+          />
+        );
+      case "date":
+        return (
+          <Controller
+            name={formField.name}
+            control={form.control}
+            key={formField.name}
+            render={({ field }) => {
+              return (
+                <DateInput
+                  {...field}
+                  {...props}
+                  clearable={formField.clearable}
+                  onChange={field.onChange}
+                  value={formatDate(field.value)}
+                  maxDate={formField.showFuture ? undefined : new Date()}
+                />
+              );
+            }}
           />
         );
     }

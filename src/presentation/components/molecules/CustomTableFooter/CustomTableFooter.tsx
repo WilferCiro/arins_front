@@ -1,7 +1,7 @@
 import { Group, Pagination, Select, Text } from "@mantine/core";
 import styles from "./styles.module.css";
 
-const countOptions = ["10", "20", "40", "60", "100"];
+const countOptions = ["10", "20", "40", "50"];
 interface Props {
   page: number;
   count: number;
@@ -17,7 +17,7 @@ const CustomTableFooter = ({
   changeCount,
 }: Props) => {
   return (
-    <Group className={styles.footer_options}>
+    <Group className={styles.footer_options} justify="space-between">
       <div>
         <p>
           {count * (page - 1) + 1} a{" "}

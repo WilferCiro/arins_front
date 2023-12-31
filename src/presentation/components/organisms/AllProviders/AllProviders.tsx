@@ -13,7 +13,7 @@ import { publicProvider } from "wagmi/providers/public";
 import { WagmiConfig, createConfig, configureChains, mainnet } from "wagmi";
 
 // Custom
-import RouterTransition from "@/presentation/components/atoms/RouterTransition";
+import { ContextProviderAuth } from "@/presentation/context/ContextAuth";
 
 const { publicClient, webSocketPublicClient } = configureChains(
   [mainnet],
@@ -32,7 +32,7 @@ const theme = createTheme({
   defaultRadius: "10px",
   fontFamily: "var(--font-monserrat)",
   colors: {
-    primary: generateColors("#9d009d"),
+    primary: generateColors("orangered"),
     secondary: [
       "#00438b",
       "#00438b",
@@ -50,21 +50,24 @@ const theme = createTheme({
 
 export default function AllProviders({
   children,
+  cookies,
 }: {
   children: React.ReactNode;
+  cookies: { name: string; value: string }[] | undefined;
 }) {
   const queryClient = new QueryClient();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <WagmiConfig config={config}>
-        <ColorSchemeScript />
-        <MantineProvider theme={theme}>
-          <Notifications position="top-center" limit={3} zIndex={1000} />
-          <RouterTransition />
-          {children}
-        </MantineProvider>
-      </WagmiConfig>
-    </QueryClientProvider>
+    <ContextProviderAuth cookies={cookies}>
+      <QueryClientProvider client={queryClient}>
+        <WagmiConfig config={config}>
+          <ColorSchemeScript />
+          <MantineProvider theme={theme}>
+            <Notifications position="top-center" limit={3} zIndex={1000} />
+            {children}
+          </MantineProvider>
+        </WagmiConfig>
+      </QueryClientProvider>
+    </ContextProviderAuth>
   );
 }

@@ -1,23 +1,14 @@
 "use client";
 
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  LoadingOverlay,
-  Tooltip,
-} from "@mantine/core";
+import { Box, LoadingOverlay } from "@mantine/core";
 import { Column } from "react-table";
 import { ReactElement, startTransition, useMemo, useState } from "react";
-import { useInfiniteQuery, useQuery, useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 
 import styles from "./styles.module.css";
 import TableComponent from "../../molecules/TableComponent/TableComponent";
 import { getPaginatedData } from "@/data/services/table.services";
-import { IconSearch } from "@tabler/icons-react";
-import GenericForm from "../GenericForm";
-import { getTableSearchFormDefinition } from "@/data/forms/table_cert.form";
+import { getTableSearchFormDefinition } from "@/data/forms/table_crud.form";
 import { useCustomForm } from "@/presentation/hooks/useCustomForm";
 import CustomTableFooter from "../../molecules/CustomTableFooter";
 import TableCrudHeader from "../../molecules/TableCrud/TableCrudHeader";
@@ -30,7 +21,7 @@ interface Props<T extends object> {
   endpoint: string;
   server: string;
 
-  filterForm: any;
+  filterForm?: FormFieldSchema[] | undefined;
 
   headerRight?: ReactElement;
 

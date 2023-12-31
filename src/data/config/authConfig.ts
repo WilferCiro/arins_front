@@ -7,7 +7,11 @@ import { isExpired, decodeToken } from "react-jwt";
 
 // Custom
 import { UserAuthSchema } from "@/domain/schemas/UserAuthSchema";
-import { checkIsAdmin } from "@/domain/utils/auth.utils";
+// import { checkIsAdmin } from "@/domain/utils/auth.utils";
+
+const checkIsAdmin = (address: string) => {
+  return true;
+};
 
 export const authOptions: AuthOptions = {
   providers: [

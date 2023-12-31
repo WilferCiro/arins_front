@@ -1,7 +1,7 @@
 import CompaniesView from "@/presentation/components/pages/admin/CompaniesView";
 
 export const metadata = {
-  title: "Compañías",
+  title: "Arins :: Compañías",
 };
 
 const CompaniesPage = () => {

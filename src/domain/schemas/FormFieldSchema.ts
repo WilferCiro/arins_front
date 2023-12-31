@@ -5,7 +5,6 @@ interface FormFieldCommonSchema {
   label?: string;
   type:
     | "text"
-    | "select"
     | "textarea"
     | "email"
     | "number"
@@ -13,9 +12,10 @@ interface FormFieldCommonSchema {
     | "checkbox"
     | "date"
     | "datetime"
+    | "select"
     | "select_search"
-    | "ethereum"
-    | "ipfs";
+    | "multiselect"
+    | "multiselect_search";
   initialValue?: string | number | boolean;
   placeholder?: string;
   required?: boolean;
@@ -24,22 +24,16 @@ interface FormFieldCommonSchema {
 }
 export type FormFieldSchema =
   | (FormFieldCommonSchema & {
-      type:
-        | "text"
-        | "textarea"
-        | "email"
-        | "password"
-        | "checkbox"
-        | "ipfs"
-        | "ethereum";
+      type: "text" | "textarea" | "email" | "password" | "checkbox";
     })
   | (FormFieldCommonSchema & {
-      type: "select";
+      type: "select" | "multiselect";
       service?: string;
+      clearable?: boolean;
       options?: { value: string; label: string }[];
     })
   | (FormFieldCommonSchema & {
-      type: "select_search";
+      type: "select_search" | "multiselect_search";
       endpoint: string;
     })
   | (FormFieldCommonSchema & {
@@ -51,4 +45,5 @@ export type FormFieldSchema =
   | (FormFieldCommonSchema & {
       type: "date" | "datetime";
       showFuture?: boolean;
+      clearable?: boolean;
     });

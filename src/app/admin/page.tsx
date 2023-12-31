@@ -1,7 +1,7 @@
 import AdminView from "@/presentation/components/pages/admin";
 
 export const metadata = {
-  title: "Página de creación de certificado",
+  title: "Arins :: Página de creación de certificado",
 };
 
 const CreateCertPage = () => {

@@ -3,17 +3,19 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import * as Yup from "yup";
 import { FormFieldSchema } from "@/domain/schemas/FormFieldSchema";
-import { Web3 } from "web3";
 
 const getInitialValues = (fields: FormFieldSchema[]) => {
   const values = [];
   for (const field of fields) {
-    values.push([field.name, field.initialValue ?? ""]);
+    const initialVal = ["multiselect_search", "multiselect"].includes(
+      field.type
+    )
+      ? []
+      : "";
+    values.push([field.name, field.initialValue ?? initialVal]);
   }
   return Object.fromEntries(values);
 };
-
-const ipfsAddressRegex = /^ipfs:\/\/([a-zA-Z0-9]{46,})$/;
 
 const getValidations = (fields: FormFieldSchema[]) => {
   const values: { [key: string]: any } = {};
@@ -22,10 +24,7 @@ const getValidations = (fields: FormFieldSchema[]) => {
       values[field.name] = field.validate;
       return;
     }
-    let validator:
-      | Yup.StringSchema<any>
-      | Yup.NumberSchema<any>
-      | Yup.BooleanSchema<any>;
+    let validator: any;
 
     switch (field.type) {
       case "password":
@@ -55,29 +54,9 @@ const getValidations = (fields: FormFieldSchema[]) => {
           `${field.label} debe ser un correo electrónico válido`
         );
         break;
-      case "ethereum":
-        validator = Yup.string().test(
-          "ethereum",
-          "La dirección Ethereum no es válida",
-          function (value) {
-            if (value) {
-              return Web3.utils.isAddress(value);
-            }
-            return true;
-          }
-        );
-        break;
-      case "ipfs":
-        validator = Yup.string().test(
-          "ipfs",
-          "Debe ser una dirección ipfs (ipfs://CID)",
-          function (value) {
-            if (value) {
-              return ipfsAddressRegex.test(value);
-            }
-            return true;
-          }
-        );
+      case "multiselect_search":
+      case "multiselect":
+        validator = Yup.array().of(Yup.string());
         break;
       default:
         validator = Yup.string();
@@ -91,6 +70,8 @@ const getValidations = (fields: FormFieldSchema[]) => {
           `${field.label} debe ser seleccionado.`
         );
       }
+    } else {
+      validator = validator.nullable();
     }
     values[field.name] = validator;
   });

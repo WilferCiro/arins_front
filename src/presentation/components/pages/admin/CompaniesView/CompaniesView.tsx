@@ -11,7 +11,10 @@ import {
 } from "@/data/services/companies.services";
 import { getCompaniesTableDefinition } from "@/data/tables/companies.table";
 import { CompanySchema } from "@/domain/schemas/CompanySchema";
+import PageTitle from "@/presentation/components/atoms/PageTitle";
 import CrudTable from "@/presentation/components/organisms/CrudTable";
+import { Divider } from "@mantine/core";
+import { IconBuilding } from "@tabler/icons-react";
 import { useMemo } from "react";
 import { useMutation } from "react-query";
 
@@ -59,11 +62,16 @@ const CompaniesView = () => {
 
   return (
     <>
+      <PageTitle
+        title={"Listado de empresas"}
+        subtitle="Administra las empresas de arins"
+        icon={<IconBuilding />}
+      />
+      <Divider m="lg" />
       <CrudTable<CompanySchema>
         columns={columns}
         endpoint={"companies"}
         server={appConfig.API_BACKEND_URL}
-        filterForm={undefined}
         fieldsForms={{
           add: formAdd,
           edit: formEdit,

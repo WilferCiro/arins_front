@@ -1,31 +1,36 @@
 import { fetchClient } from "../client/fetchClient";
 import { appConfig } from "../config/app_config";
 
-interface ReqMessageProps {
-  address: `0x${string}`;
-  chain: number;
-  network: string;
-}
-
-export const requestMessage = async (body: ReqMessageProps) => {
-  return await fetchClient({
-    endpoint: "http://localhost:3000/api/auth/request-message",
-    method: "POST",
-    body,
-  });
-};
-
 const endpoint = appConfig.API_BACKEND_URL;
 
-export const signInService = async (
-  address: `0x${string}`
+export interface LoginServiceProps {
+  email: string;
+  password: string;
+}
+
+export const signInService = async ({
+  email,
+  password,
+}: LoginServiceProps): Promise<{ token: string }> => {
+  return (await fetchClient({
+    endpoint: `${endpoint}/auth/login`,
+    method: "POST",
+    //customHeaders: {
+    // "api-key": appConfig.API_KEY_LOGIN,
+    //},
+    body: { email, password },
+  })) as { token: string };
+};
+
+export const refetchTokenService = async (
+  company_id?: string
 ): Promise<{ token: string }> => {
   return (await fetchClient({
-    endpoint: `${endpoint}/auth/token`,
+    endpoint: `${endpoint}/auth/refetch`,
     method: "POST",
-    customHeaders: {
-      'api-key': appConfig.API_KEY_LOGIN
-    },
-    body: { address },
+    //customHeaders: {
+    // "api-key": appConfig.API_KEY_LOGIN,
+    //},
+    body: { company_id },
   })) as { token: string };
 };
