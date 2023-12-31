@@ -4,3 +4,13 @@
   align-items: center;
   gap: 15px;
 }
+
+@media (max-width: 767px) {
+  .title {
+    align-items: flex-start;
+    padding: 2px;
+  }
+  .icon {
+    display: none;
+  }
+}

@@ -3,7 +3,7 @@
 // Nextjs and react
 
 // Mantine
-import { AppShell } from "@mantine/core";
+import { AppShell, ScrollArea } from "@mantine/core";
 
 // Custom
 import CustomHeader from "../../organisms/CustomHeader/CustomHeader";
@@ -37,8 +37,8 @@ export default function AdminAuthLayout({
           mobileOpened={mobileOpened}
         />
       </AppShell.Header>
-      <AppShell.Navbar p="md" bg="var(--mantine-color-gray-light)">
-        <AppShell.Section grow my="md">
+      <AppShell.Navbar p="md">
+        <AppShell.Section grow my="md" component={ScrollArea}>
           <CustomNavbar
             toggleDesktop={toggleDesktop}
             desktopOpened={desktopOpened}
