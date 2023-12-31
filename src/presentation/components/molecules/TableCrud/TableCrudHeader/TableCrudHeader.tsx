@@ -1,12 +1,13 @@
 import { FormFieldSchema } from "@/domain/schemas/FormFieldSchema";
 import { TableActionsSchema } from "@/domain/schemas/TableActionsSchema";
 import { FormType } from "@/domain/types/FormType";
+import AsyncButton from "@/presentation/components/atoms/AsyncButton";
 import FormModal from "@/presentation/components/organisms/FormModal";
 import GenericForm from "@/presentation/components/organisms/GenericForm";
 import { useCustomForm } from "@/presentation/hooks/useCustomForm";
 import { Button, Flex, Grid, Modal, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconSearch } from "@tabler/icons-react";
+import { IconFileExport, IconSearch } from "@tabler/icons-react";
 import { ReactElement, useEffect } from "react";
 
 interface Props<T> {
@@ -47,6 +48,19 @@ const TableCrudHeader = <T extends object>({
     return valid;
   };
 
+  const onExport = async (): Promise<boolean> => {
+    if (actions?.onExport) {
+      await formFilter.trigger();
+      const valid = formFilter.formState.isValid;
+      if (!valid) {
+        return false;
+      }
+      return await actions.onExport(formFilter.getValues());
+    }
+
+    return false;
+  };
+
   useEffect(() => {
     const subscription = formFilter.watch(filterAction);
     return () => subscription.unsubscribe();
@@ -57,13 +71,28 @@ const TableCrudHeader = <T extends object>({
       <Grid justify="space-between" align="center">
         <Grid.Col span={6}>
           <Flex gap={3}>
-            <div style={{ width: "450px", display: "flex" }}>
+            <div
+              style={{
+                width: "100%",
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr 1fr",
+                gridGap: "7px",
+              }}
+            >
               <GenericForm form={formFilter} fields={fieldsFilter} />
             </div>
           </Flex>
         </Grid.Col>
 
         <Grid.Col span={2}>{headerRight}</Grid.Col>
+
+        {actions?.onExport && (
+          <AsyncButton
+            onClick={onExport}
+            leftIcon={<IconFileExport size="1.125rem" />}
+            label={"Exportar"}
+          />
+        )}
         {fieldsFormAdd && actions?.onAdd && (
           <>
             <FormModal

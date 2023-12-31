@@ -7,7 +7,12 @@ import { FormFieldSchema } from "@/domain/schemas/FormFieldSchema";
 const getInitialValues = (fields: FormFieldSchema[]) => {
   const values = [];
   for (const field of fields) {
-    values.push([field.name, field.initialValue ?? ""]);
+    const initialVal = ["multiselect_search", "multiselect"].includes(
+      field.type
+    )
+      ? []
+      : "";
+    values.push([field.name, field.initialValue ?? initialVal]);
   }
   return Object.fromEntries(values);
 };
@@ -19,10 +24,7 @@ const getValidations = (fields: FormFieldSchema[]) => {
       values[field.name] = field.validate;
       return;
     }
-    let validator:
-      | Yup.StringSchema<any>
-      | Yup.NumberSchema<any>
-      | Yup.BooleanSchema<any>;
+    let validator: any;
 
     switch (field.type) {
       case "password":
@@ -51,6 +53,10 @@ const getValidations = (fields: FormFieldSchema[]) => {
         validator = Yup.string().email(
           `${field.label} debe ser un correo electrónico válido`
         );
+        break;
+      case "multiselect_search":
+      case "multiselect":
+        validator = Yup.array().of(Yup.string());
         break;
       default:
         validator = Yup.string();

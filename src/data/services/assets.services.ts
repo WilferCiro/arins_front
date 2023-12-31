@@ -33,11 +33,14 @@ export async function deleteAssetService(
   });
 }
 
-export async function exportAssetService(): Promise<null> {
+export async function exportAssetService(
+  filters: Record<string, string> | undefined
+): Promise<null> {
   return await fetchClient({
     endpoint: `${endpoint}/export`,
     method: "POST",
     isFile: true,
     fileName: "Assets.xlsx",
+    body: filters,
   });
 }

@@ -43,12 +43,13 @@ const LoginForm = () => {
     },
   });
 
-  const onFinish = async () => {
+  const onFinish = async (): Promise<boolean> => {
     await form.trigger();
     const valid = form.formState.isValid;
     if (valid) {
-      mutation.mutate(form.getValues() as LoginServiceProps);
+      await mutation.mutateAsync(form.getValues() as LoginServiceProps);
     }
+    return true;
   };
 
   return (

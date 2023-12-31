@@ -39,6 +39,14 @@ export const getAssetsTableDefinition = (): Column<AssetSchema>[] => {
       },
     },
     {
+      Header: "Valoración",
+      accessor: "assessment",
+    },
+    {
+      Header: "Estado",
+      accessor: "status",
+    },
+    {
       Header: "Adquirida en",
       accessor: "acquisitionDate",
       Cell: ({ cell: { value } }) => {

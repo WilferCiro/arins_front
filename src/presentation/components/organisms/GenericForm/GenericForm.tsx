@@ -2,6 +2,7 @@
 
 import {
   Checkbox,
+  MultiSelect,
   NumberInput,
   PasswordInput,
   Select,
@@ -14,6 +15,7 @@ import { FormType } from "@/domain/types/FormType";
 import SelectSearchForm from "../../molecules/SelectSearchForm";
 import { DateInput, DateValue } from "@mantine/dates";
 import dayjs from "dayjs";
+import MultiSelectSearchForm from "../../molecules/MultiSelectSearchForm";
 
 const formatDate = (date: DateValue | undefined): DateValue | undefined => {
   if (typeof date === "string" && date !== "") {
@@ -23,6 +25,13 @@ const formatDate = (date: DateValue | undefined): DateValue | undefined => {
     return undefined;
   }
   return date;
+};
+
+const formatStringArray = (value: string | string[]) => {
+  if (typeof value === "string") {
+    return value !== "" ? [value] : [];
+  }
+  return value || [];
 };
 
 interface Props {
@@ -92,7 +101,7 @@ const GenericForm = ({ form, fields }: Props) => {
                   {...props}
                   clearable={formField.clearable || false}
                   data={formField.options || []}
-                  value={(field.value?.id || field.value) + ""}
+                  value={(field.value?._id || field.value) + ""}
                   searchable
                 />
               );
@@ -113,6 +122,47 @@ const GenericForm = ({ form, fields }: Props) => {
                   ref={field.ref}
                   endpoint={formField.endpoint}
                   value={(field.value?.id || field.value) + ""}
+                />
+              );
+            }}
+          />
+        );
+      case "multiselect":
+        return (
+          <Controller
+            name={formField.name}
+            control={form.control}
+            key={formField.name}
+            render={({ field }) => {
+              return (
+                <MultiSelect
+                  {...field}
+                  {...props}
+                  clearable={formField.clearable || false}
+                  data={formField.options || []}
+                  value={formatStringArray(field.value)}
+                  onChange={(value) => field.onChange(formatStringArray(value))}
+                  searchable
+                />
+              );
+            }}
+          />
+        );
+      case "multiselect_search":
+        return (
+          <Controller
+            name={formField.name}
+            control={form.control}
+            key={formField.name}
+            render={({ field }) => {
+              return (
+                <MultiSelectSearchForm
+                  {...props}
+                  {...field}
+                  ref={field.ref}
+                  endpoint={formField.endpoint}
+                  value={formatStringArray(field.value)}
+                  onChange={(value) => field.onChange(formatStringArray(value))}
                 />
               );
             }}

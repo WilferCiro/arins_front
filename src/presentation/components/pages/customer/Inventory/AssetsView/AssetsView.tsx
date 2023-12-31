@@ -13,6 +13,7 @@ import {
   addAssetService,
   deleteAssetService,
   editAssetService,
+  exportAssetService,
 } from "@/data/services/assets.services";
 import {
   addDependencyService,
@@ -46,6 +47,9 @@ const AssetsView = () => {
   const mutationDelete = useMutation({
     mutationFn: deleteAssetService,
   });
+  const mutationExport = useMutation({
+    mutationFn: exportAssetService,
+  });
 
   const onAdd = async (values: AssetSchema) => {
     const res = await mutationAdd.mutateAsync(values);
@@ -62,6 +66,13 @@ const AssetsView = () => {
     const res = await mutationDelete.mutateAsync({
       _id: original._id,
     });
+    return res !== null;
+  };
+
+  const onExport = async (
+    filters: Record<string, string> | undefined
+  ): Promise<boolean> => {
+    const res = await mutationExport.mutateAsync(filters);
     return res !== null;
   };
 
@@ -86,6 +97,7 @@ const AssetsView = () => {
           onAdd: onAdd,
           onEdit: onEdit,
           onDelete: onDelete,
+          onExport: onExport,
         }}
       />
     </>

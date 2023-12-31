@@ -41,3 +41,12 @@ export async function exportProductService(): Promise<null> {
     fileName: "Products.xlsx",
   });
 }
+
+export async function getProductByStoreService(
+  store_id: string
+): Promise<ProductSchema[] | null> {
+  return await fetchClient({
+    endpoint: endpoint + "/store/" + store_id,
+    method: "GET",
+  });
+}

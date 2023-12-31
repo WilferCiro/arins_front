@@ -47,6 +47,7 @@
     "react-jwt": "^1.2.0",
     "react-query": "^3.39.3",
     "react-table": "^7.8.0",
+    "react-zxing": "^2.0.0",
     "sharp": "^0.33.1",
     "typescript": "5.3.3",
     "wagmi": "^1.4.12",

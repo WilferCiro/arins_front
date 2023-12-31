@@ -1,4 +1,4 @@
-import StoresView from "@/presentation/components/pages/customer/Sell/StoresView";
+import StoresView from "@/presentation/components/pages/customer/Sales/StoresView";
 
 export const metadata = {
   title: "Arins :: Bodegas",

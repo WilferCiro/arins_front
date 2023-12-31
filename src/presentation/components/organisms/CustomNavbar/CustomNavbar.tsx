@@ -107,7 +107,7 @@ const CustomNavbar = ({ desktopOpened, toggleDesktop }: Props) => {
         active={[
           "/customer/stores",
           "/customer/products",
-          "/customer/sell",
+          "/customer/sales",
           "/customer/product_reports",
         ].includes(pathname || "")}
         variant="subtle"
@@ -130,10 +130,10 @@ const CustomNavbar = ({ desktopOpened, toggleDesktop }: Props) => {
         />
         <NavLink
           component={Link}
-          href="/customer/sell"
+          href="/customer/sales"
           label="Ventas"
           color="blue"
-          active={pathname === "/customer/sell"}
+          active={pathname === "/customer/sales"}
           leftSection={<IconCashBanknote size="1rem" stroke={1.5} />}
         />
         <NavLink

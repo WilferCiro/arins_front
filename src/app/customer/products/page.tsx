@@ -1,4 +1,4 @@
-import ProductsView from "@/presentation/components/pages/customer/Sell/ProductsView";
+import ProductsView from "@/presentation/components/pages/customer/Sales/ProductsView";
 
 export const metadata = {
   title: "Arins :: Productos",

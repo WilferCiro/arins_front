@@ -1,4 +1,4 @@
-import { Box, LoadingOverlay, Select } from "@mantine/core";
+import { Box, LoadingOverlay, MultiSelect, Select } from "@mantine/core";
 import { useState } from "react";
 import { useQuery } from "react-query";
 import React from "react";
@@ -10,7 +10,7 @@ interface Props {
   value: any;
 }
 
-const SelectSearchForm = React.forwardRef(
+const MultiSelectSearchForm = React.forwardRef(
   ({ onChange, value, endpoint, ...props }: Props, ref: any) => {
     const [searchValue, onSearchChange] = useState("");
 
@@ -32,7 +32,7 @@ const SelectSearchForm = React.forwardRef(
           visible={isLoading}
           overlayProps={{ radius: "sm", blur: 2 }}
         />
-        <Select
+        <MultiSelect
           {...props}
           ref={ref}
           searchable
@@ -48,6 +48,6 @@ const SelectSearchForm = React.forwardRef(
   }
 );
 
-SelectSearchForm.displayName = "SelectSearchForm";
+MultiSelectSearchForm.displayName = "MultiSelectSearchForm";
 
-export default SelectSearchForm;
+export default MultiSelectSearchForm;

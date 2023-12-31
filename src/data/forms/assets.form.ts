@@ -105,32 +105,31 @@ export const getAssetsFormFilter = (): FormFieldSchema[] => {
       placeholder: "Ingrese un filtro",
       required: false,
     },
-    {
+    /*{
       type: "date",
       name: "acquisitionDate",
-      placeholder: "Seleccione la fecha de adquisición del activo",
+      placeholder: "Filtrar por fecha de adquisición",
       clearable: true,
       showFuture: false,
-    },
+    },*/
     {
-      type: "select",
+      type: "multiselect",
       name: "category",
       clearable: true,
-      placeholder: "Seleccione la categoría del activo",
-      initialValue: AssetsCategories[0].value,
+      placeholder: "Filtrar por categoría",
       options: AssetsCategories,
     },
     {
-      type: "select_search",
+      type: "multiselect_search",
       name: "dependency_id",
       placeholder: "Seleccione la dependencia",
       endpoint: appConfig.API_BACKEND_URL + "/dependencies/select",
     },
     {
-      type: "select",
+      type: "multiselect",
       name: "status",
       clearable: true,
-      placeholder: "Seleccione la dependencia",
+      placeholder: "Filtrar por estado",
       options: (
         Object.keys(AssetStatus) as Array<keyof typeof AssetStatus>
       ).map((key) => ({
@@ -139,10 +138,10 @@ export const getAssetsFormFilter = (): FormFieldSchema[] => {
       })),
     },
     {
-      type: "select",
+      type: "multiselect",
       name: "assessment",
       clearable: true,
-      placeholder: "Seleccione la valoración",
+      placeholder: "Filtar por valoración",
       options: (
         Object.keys(AssetAssessment) as Array<keyof typeof AssetAssessment>
       ).map((key) => ({
