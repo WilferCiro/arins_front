@@ -32,7 +32,6 @@ export const getPaginatedData = async <T>({
     endpoint: `${server}/${endpoint}/paginated`,
     method: "GET",
     params,
-    hasToken: true,
   });
 
   return data;

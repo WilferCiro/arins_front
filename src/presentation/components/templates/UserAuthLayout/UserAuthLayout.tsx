@@ -7,7 +7,7 @@ import { AppShell } from "@mantine/core";
 
 // Custom
 import CustomHeader from "../../organisms/CustomHeader/CustomHeader";
-import CustomFooter from "../../molecules/CustomFooter/CustomFooter";
+import CustomFooter from "../../organisms/CustomFooter/CustomFooter";
 
 export default function UserAuthLayout({
   children,
