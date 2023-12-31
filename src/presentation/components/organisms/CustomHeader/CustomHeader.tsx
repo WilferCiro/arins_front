@@ -70,7 +70,7 @@ const CustomHeader = ({
             style={{ display: desktopOpened ? "none" : "block" }}
           />
         </>
-        <div style={{ width: "140px" }}>
+        <div>
           <Image src="/logo_header.png" alt="Logo" width={32} height={32} />
         </div>
       </Group>

@@ -8,7 +8,7 @@ export const getLoginFormDefinition = (): FormFieldSchema[] => {
       label: "Email",
       placeholder: "Email",
       required: true,
-      initialValue: "admin@admin.com"
+      initialValue: "admin@admin.com",
     },
     {
       type: "password",
@@ -16,7 +16,7 @@ export const getLoginFormDefinition = (): FormFieldSchema[] => {
       label: "Contraseña",
       placeholder: "Contraseña",
       required: true,
-      initialValue: "admin"
+      initialValue: "tB8.$X)}Z9",
     },
   ];
 
