@@ -11,6 +11,7 @@ interface FormFieldCommonSchema {
     | "password"
     | "checkbox"
     | "date"
+    | "daterange"
     | "datetime"
     | "select"
     | "select_search"
@@ -43,7 +44,7 @@ export type FormFieldSchema =
       decimals?: boolean;
     })
   | (FormFieldCommonSchema & {
-      type: "date" | "datetime";
+      type: "date" | "datetime" | "daterange";
       showFuture?: boolean;
       clearable?: boolean;
     });

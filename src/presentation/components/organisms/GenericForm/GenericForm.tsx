@@ -13,7 +13,12 @@ import { Controller } from "react-hook-form";
 import { FormFieldSchema } from "@/domain/schemas/FormFieldSchema";
 import { FormType } from "@/domain/types/FormType";
 import SelectSearchForm from "../../molecules/SelectSearchForm";
-import { DateInput, DateValue } from "@mantine/dates";
+import {
+  DateInput,
+  DatePickerInput,
+  DateValue,
+  DatesRangeValue,
+} from "@mantine/dates";
 import dayjs from "dayjs";
 import MultiSelectSearchForm from "../../molecules/MultiSelectSearchForm";
 
@@ -190,6 +195,7 @@ const GenericForm = ({ form, fields }: Props) => {
             )}
           />
         );
+      case "daterange":
       case "date":
         return (
           <Controller
@@ -198,12 +204,15 @@ const GenericForm = ({ form, fields }: Props) => {
             key={formField.name}
             render={({ field }) => {
               return (
-                <DateInput
+                <DatePickerInput
+                  valueFormat="YYYY MMM DD"
+                  type={formField.type === "daterange" ? "range" : "default"}
                   {...field}
                   {...props}
                   clearable={formField.clearable}
-                  onChange={field.onChange}
-                  value={formatDate(field.value)}
+                  onChange={(value: DateValue | DatesRangeValue | null) =>
+                    field.onChange(value ? value : undefined)
+                  }
                   maxDate={formField.showFuture ? undefined : new Date()}
                 />
               );

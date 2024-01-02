@@ -7,11 +7,16 @@ import { FormFieldSchema } from "@/domain/schemas/FormFieldSchema";
 const getInitialValues = (fields: FormFieldSchema[]) => {
   const values = [];
   for (const field of fields) {
-    const initialVal = ["multiselect_search", "multiselect"].includes(
-      field.type
-    )
+    const initialVal = [
+      "multiselect_search",
+      "multiselect",
+      "daterange",
+    ].includes(field.type)
       ? []
+      : ["date"].includes(field.type)
+      ? undefined
       : "";
+
     values.push([field.name, field.initialValue ?? initialVal]);
   }
   return Object.fromEntries(values);
@@ -57,6 +62,9 @@ const getValidations = (fields: FormFieldSchema[]) => {
       case "multiselect_search":
       case "multiselect":
         validator = Yup.array().of(Yup.string());
+        break;
+      case "daterange":
+        validator = Yup.array().of(Yup.date());
         break;
       default:
         validator = Yup.string();
