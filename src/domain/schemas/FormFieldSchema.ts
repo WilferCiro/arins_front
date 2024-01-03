@@ -42,6 +42,10 @@ export type FormFieldSchema =
       min?: number;
       max?: number;
       decimals?: boolean;
+      prefix?: string;
+      suffix?: string;
+      thousandSeparator?: string;
+      allowNegative?: boolean;
     })
   | (FormFieldCommonSchema & {
       type: "date" | "datetime" | "daterange";

@@ -81,7 +81,15 @@ const GenericForm = ({ form, fields }: Props) => {
             control={form.control}
             key={formField.name}
             render={({ field }) => (
-              <NumberInput {...field} {...props} onChange={field.onChange} />
+              <NumberInput
+                {...field}
+                {...props}
+                suffix={formField?.suffix}
+                prefix={formField?.prefix}
+                thousandSeparator={formField?.thousandSeparator}
+                allowNegative={formField?.allowNegative}
+                onChange={field.onChange}
+              />
             )}
           />
         );

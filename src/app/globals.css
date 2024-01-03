@@ -15,3 +15,12 @@ a {
   color: orangered;
 }
 
+@keyframes fade {
+  from {color: orangered;}
+  to {color: var(--mantine-text);}
+}
+
+.row-active {
+  animation-name: fade;
+  animation-duration: 1.3s;
+}

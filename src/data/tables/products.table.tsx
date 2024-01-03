@@ -26,6 +26,13 @@ export const getProductsTableDefinition = (): Column<ProductSchema>[] => {
       accessor: "quantity",
     },
     {
+      Header: "Iva",
+      accessor: "iva",
+      Cell: ({ cell: { value } }) => {
+        return <>{value} %</>;
+      },
+    },
+    {
       Header: "Presentación",
       accessor: "presentation",
     },

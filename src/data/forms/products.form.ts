@@ -25,6 +25,9 @@ export const getProductsFormAdd = (): FormFieldSchema[] => {
       label: "Precio",
       placeholder: "Ingrese el precio en COP sin puntos ni comas",
       required: true,
+      prefix: "$ ",
+      thousandSeparator: " ",
+      allowNegative: false
     },
     {
       type: "number",
@@ -32,6 +35,18 @@ export const getProductsFormAdd = (): FormFieldSchema[] => {
       label: "Cantidad",
       placeholder: "Ingrese la cantidad sin puntos ni comas",
       required: true,
+      allowNegative: false
+    },
+    {
+      type: "number",
+      name: "iva",
+      label: "Cantidad",
+      placeholder: "Ingrese el iva de 0-100",
+      min: 0,
+      max: 100,
+      required: true,
+      suffix: " %",
+      allowNegative: false
     },
     {
       type: "text",

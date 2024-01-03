@@ -1,4 +1,5 @@
 import { ProductSchema } from "./ProductSchema";
+import { StoreSchema } from "./StoreSchema";
 
 export interface SaleSchema {
   _id?: string;
@@ -11,6 +12,7 @@ export interface SaleSchema {
       name: string;
       price: number;
       quantity: number;
+      iva: number;
     }[];
     date: Date;
   }[];
@@ -20,9 +22,20 @@ export interface SaleSchema {
     date: Date;
   }[];
 
+  store: StoreSchema,
+  store_id: string;
+
   createdAt: Date;
 }
 
 export interface SaleAddSchema {
   initialMoney: number;
+}
+
+export interface SaleAddSaleSchema {
+  sale_id: string;
+  products: {
+    _id: string;
+    quantity: number;
+  }[];
 }

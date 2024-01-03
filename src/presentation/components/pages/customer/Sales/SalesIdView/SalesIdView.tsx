@@ -1,67 +1,27 @@
 "use client";
-import { appConfig } from "@/data/config/app_config";
-import { getStoresFormAdd, getStoresFormEdit } from "@/data/forms/stores.form";
 import { getProductByStoreService } from "@/data/services/products.services";
-import {
-  addStoreService,
-  editStoreService,
-} from "@/data/services/stores.services";
+import { createSaleSaleService } from "@/data/services/sales.services";
 import { getSaleTableDefinition } from "@/data/tables/sales_id.table";
-import { getStoresTableDefinition } from "@/data/tables/stores.table";
-import getDateString from "@/domain/adapters/getDateString";
-import getFullDate from "@/domain/adapters/getFullDate";
 import { getPriceFormat } from "@/domain/adapters/getPriceFormat";
-import { ProductSchema } from "@/domain/schemas/ProductSchema";
-import { SaleTableSchema } from "@/domain/schemas/SaleIdSchema";
-import { StoreSchema } from "@/domain/schemas/StoreSchema";
-import AsyncButton from "@/presentation/components/atoms/AsyncButton";
 import BarcodeScanner from "@/presentation/components/atoms/BarcodeScanner";
 import PageTitle from "@/presentation/components/atoms/PageTitle";
+import CardInfo from "@/presentation/components/molecules/CardInfo";
 import TableComponent from "@/presentation/components/molecules/TableComponent";
-import CrudTable from "@/presentation/components/organisms/CrudTable";
+import CardSummarySale from "@/presentation/components/organisms/CardSummarySale";
 import { useAuth } from "@/presentation/context/ContextAuth";
-import {
-  ActionIcon,
-  Alert,
-  Badge,
-  Button,
-  Card,
-  Divider,
-  Flex,
-  Group,
-  Modal,
-  NumberInput,
-  RingProgress,
-  Select,
-  Space,
-  Text,
-} from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import useSaleView from "@/presentation/hooks/useSaleView";
+import { Card, Divider, Flex, Group, Select, Space, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import {
-  IconCash,
-  IconDatabase,
-  IconInfoCircle,
-  IconTrash,
-} from "@tabler/icons-react";
-import { useMemo, useState } from "react";
+import { IconCash } from "@tabler/icons-react";
+import { useRef } from "react";
 import { useMutation, useQuery } from "react-query";
-import { Column } from "react-table";
-import { useZxing } from "react-zxing";
 
 const store_id = "658a3fc50b60256c6b37daea";
 
 const SalesIdView = () => {
   const { currentCompany } = useAuth();
-  const [data, setDataTable] = useState<SaleTableSchema[]>([]);
-  const columns = getSaleTableDefinition();
-  const [opened, { open, close }] = useDisclosure(false);
-
-  const {
-    isError,
-    data: products,
-    isFetching,
-  } = useQuery(
+  const refSelect = useRef<HTMLInputElement>(null);
+  const { data: products, isFetching } = useQuery(
     [`products_by_store_id`, store_id],
     () => getProductByStoreService(store_id),
     {
@@ -70,10 +30,37 @@ const SalesIdView = () => {
     }
   );
 
-  const addProduct = (value: string | null) => {
+  const { dataTable, deleteDataTableRow, addProduct, emptyDataTable } =
+    useSaleView();
+  const columns = getSaleTableDefinition({
+    onDeleteProduct: deleteDataTableRow,
+  });
+  const mutationCreate = useMutation({
+    mutationFn: createSaleSaleService,
+  });
+
+  const storeProducts = async (): Promise<boolean> => {
+    const dataSave = dataTable.map((dt) => ({
+      _id: dt.product_id,
+      quantity: dt.quantity,
+    }));
+    const result = await mutationCreate.mutateAsync({
+      sale_id: "65935c2a05b322f3ab102ee0",
+      products: dataSave,
+    });
+    if (result) {
+      close();
+      emptyDataTable();
+    }
+    return result !== null;
+  };
+
+  const onChangeSelect = (value: string | null) => {
     if (!value) return;
 
-    const existsProduct = products?.find((product) => product._id === value);
+    const existsProduct = products?.find(
+      (product) => product._id === value || product.barcode === value
+    );
     if (!existsProduct) {
       notifications.show({
         title: "Error",
@@ -81,67 +68,11 @@ const SalesIdView = () => {
       });
       return;
     }
-
-    let newData = [...data];
-    const copyData = [...data];
-    const exists = copyData.findIndex((item) => item.product_id === value);
-    if (exists !== -1) {
-      copyData[exists].quantity = copyData[exists].quantity + 1;
-      newData = copyData;
-    } else {
-      newData = [
-        ...data,
-        {
-          product_id: existsProduct._id || "",
-          product: existsProduct.name + " - " + existsProduct.barcode,
-          price: existsProduct.price,
-          quantity: 1,
-        },
-      ];
-    }
-    setDataTable(newData);
-  };
-
-  const onDecodeResult = (barcode: string) => {
-    const exists = products?.find((product) => product.barcode === barcode);
-
-    if (!exists) {
-      notifications.show({
-        title: "Error",
-        message: "Este código de barras no existe",
-      });
-      return;
-    }
-
-    addProduct(exists._id || null);
+    addProduct(existsProduct);
   };
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title="Resumen de la venta">
-        <Card withBorder w={"100%"} mb="10">
-          <Flex direction={"column"}>
-            <Text size="xl" fw={700}>
-              {data.length}
-            </Text>
-            <Text ta="right">Productos</Text>
-          </Flex>
-        </Card>
-        <Card withBorder w={"100%"} mb="20">
-          <Flex direction={"column"}>
-            <Text size="xl" fw={700}>
-              {getPriceFormat(
-                data.reduce((accumulator, dt) => {
-                  return dt.quantity * dt.price + accumulator;
-                }, 0)
-              )}
-            </Text>
-            <Text ta="right">Total</Text>
-          </Flex>
-        </Card>
-        <Button>Guarda venta</Button>
-      </Modal>
-
       <PageTitle
         title={"Nueva venta"}
         subtitle={`Genera una nueva venta para ${currentCompany?.name}`}
@@ -154,7 +85,16 @@ const SalesIdView = () => {
           <Select
             searchable
             clearable
-            onChange={addProduct}
+            limit={20}
+            ref={refSelect}
+            onChange={(e) => {
+              onChangeSelect(e);
+            }}
+            value={null}
+            hiddenInputProps={{
+              value: undefined,
+              autoFocus: false,
+            }}
             placeholder="Selecciona el producto"
             data={(products || []).map((product) => {
               return {
@@ -164,32 +104,31 @@ const SalesIdView = () => {
             })}
           />
         </Card>
-        <BarcodeScanner onResult={onDecodeResult} />
+        <BarcodeScanner onResult={onChangeSelect} />
       </Group>
       <Divider m="lg" />
 
-      <TableComponent columns={columns} data={data} />
+      <TableComponent columns={columns} data={dataTable} />
 
       <Group>
-        <Card withBorder w={"250px"}>
-          <Flex direction={"column"}>
-            <Text size="xl" fw={700}>
-              {getPriceFormat(
-                data.reduce((accumulator, dt) => {
-                  return dt.quantity * dt.price + accumulator;
-                }, 0)
-              )}
-            </Text>
-            <Text ta="right">Total</Text>
-          </Flex>
-        </Card>
-        <Button
-          leftSection={<IconDatabase />}
-          onClick={open}
-          disabled={data.length === 0}
-        >
-          Ver resumen
-        </Button>
+        <div style={{width: "300px"}}>
+        <CardInfo
+          value={getPriceFormat(
+            dataTable.reduce((accumulator, dt) => {
+              return dt.quantity * dt.price + accumulator;
+            }, 0)
+          )}
+          subtitle={"iva: " + 
+            getPriceFormat(
+              dataTable.reduce((accumulator, dt) => {
+                return (dt.quantity * dt.price * (dt.iva / 100)) + accumulator;
+              }, 0)
+            )
+          }
+          title={"Total"}
+        /></div>
+
+        <CardSummarySale dataTable={dataTable} storeProducts={storeProducts} />
       </Group>
 
       {/*<Group>

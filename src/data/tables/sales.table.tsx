@@ -1,15 +1,21 @@
-"use client";
 import getFullDate from "@/domain/adapters/getFullDate";
 import { Column } from "react-table";
 import BadgeActive from "@/presentation/components/atoms/BadgeActive/BadgeActive";
 import { SaleSchema } from "@/domain/schemas/SaleSchema";
 import { getPriceFormat } from "@/domain/adapters/getPriceFormat";
 import { chechCurrentDate } from "@/domain/adapters/checkCurrentDate";
+import AsyncButton from "@/presentation/components/atoms/AsyncButton";
 
 const getTotalSales = (sale: SaleSchema) => {
   const prods = sale.sales.flatMap((s) => s.products);
   return prods.reduce((accumulator, dt) => {
     return dt.quantity * dt.price + accumulator;
+  }, 0);
+};
+const getTotalSalesIva = (sale: SaleSchema) => {
+  const prods = sale.sales.flatMap((s) => s.products);
+  return prods.reduce((accumulator, dt) => {
+    return dt.quantity * dt.price * (dt.iva / 100) + accumulator;
   }, 0);
 };
 const getTotalOrders = (sale: SaleSchema) => {
@@ -18,7 +24,13 @@ const getTotalOrders = (sale: SaleSchema) => {
   }, 0);
 };
 
-export const getSalesTableDefinition = (): Column<SaleSchema>[] => {
+interface Props {
+  onExportRow: (_id: string) => Promise<boolean>;
+}
+
+export const getSalesTableDefinition = ({
+  onExportRow,
+}: Props): Column<SaleSchema>[] => {
   return [
     {
       Header: "Estado",
@@ -68,6 +80,13 @@ export const getSalesTableDefinition = (): Column<SaleSchema>[] => {
       },
     },
     {
+      Header: "Valor Iva",
+      Cell: ({ cell }) => {
+        const original = cell.row.original;
+        return <>{getPriceFormat(getTotalSalesIva(original))}</>;
+      },
+    },
+    {
       Header: "Nro. Ventas",
       Cell: ({ cell }) => {
         const original = cell.row.original;
@@ -82,10 +101,35 @@ export const getSalesTableDefinition = (): Column<SaleSchema>[] => {
       },
     },
     {
+      Header: "Bodega",
+      accessor: "store",
+      Cell: ({ cell: { value } }) => {
+        return <>{value?.name}</>;
+      },
+    },
+    {
       Header: "Creada",
       accessor: "createdAt",
       Cell: ({ cell: { value } }) => {
         return <>{getFullDate(value)}</>;
+      },
+    },
+    {
+      Header: "Acciones",
+      Cell: ({ cell }) => {
+        const original = cell.row.original;
+        return (
+          <>
+            {original._id === undefined ? (
+              <></>
+            ) : (
+              <AsyncButton
+                label={"Exportar"}
+                onClick={() => onExportRow(original._id || "")}
+              />
+            )}
+          </>
+        );
       },
     },
   ];

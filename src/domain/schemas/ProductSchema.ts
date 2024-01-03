@@ -7,6 +7,7 @@ export interface ProductSchema {
   barcode: string;
   price: number;
   quantity: number;
+  iva: number;
   presentation: string;
   store: StoreSchema;
   store_id: string;
