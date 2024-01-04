@@ -19,6 +19,9 @@ export const getAssetsFormAdd = (): FormFieldSchema[] => {
       label: "Precio",
       placeholder: "Agregue el precio del activo",
       required: true,
+      prefix: "$ ",
+      thousandSeparator: " ",
+      allowNegative: false
     },
     {
       type: "select",

@@ -1,19 +1,23 @@
 "use client";
 import { appConfig } from "@/data/config/app_config";
-import { getStoresFormAdd, getStoresFormEdit } from "@/data/forms/stores.form";
+import { getSalesFormAdd, getSalesFormFilter } from "@/data/forms/sales.form";
+import { getStoresFormAdd } from "@/data/forms/stores.form";
 import {
-  addStoreService,
-  editStoreService,
-} from "@/data/services/stores.services";
+  addSaleService,
+  exportSalesRowService,
+  exportSalesService,
+} from "@/data/services/sales.services";
+import { addStoreService } from "@/data/services/stores.services";
+import { getSalesTableDefinition } from "@/data/tables/sales.table";
 import { getStoresTableDefinition } from "@/data/tables/stores.table";
 import getDateString from "@/domain/adapters/getDateString";
-import getFullDate from "@/domain/adapters/getFullDate";
+import { SaleSchema } from "@/domain/schemas/SaleSchema";
 import { StoreSchema } from "@/domain/schemas/StoreSchema";
 import PageTitle from "@/presentation/components/atoms/PageTitle";
+import CardInfo from "@/presentation/components/molecules/CardInfo";
 import CrudTable from "@/presentation/components/organisms/CrudTable";
 import { useAuth } from "@/presentation/context/ContextAuth";
 import {
-  Alert,
   Badge,
   Button,
   Card,
@@ -22,34 +26,43 @@ import {
   Space,
   Text,
 } from "@mantine/core";
-import { IconCash, IconInfoCircle } from "@tabler/icons-react";
+import { IconCash } from "@tabler/icons-react";
 import { useMemo } from "react";
 import { useMutation } from "react-query";
 
 const SalesView = () => {
-  const columns = useMemo(() => getStoresTableDefinition(), []);
-  const formAdd = useMemo(() => getStoresFormAdd(), []);
-  const formEdit = useMemo(() => getStoresFormEdit(), []);
+  const formAdd = useMemo(() => getSalesFormAdd(), []);
+  const formFilter = useMemo(() => getSalesFormFilter(), []);
+  const { currentCompany } = useAuth();
 
   const mutationAdd = useMutation({
-    mutationFn: addStoreService,
+    mutationFn: addSaleService,
   });
-  const mutationEdit = useMutation({
-    mutationFn: editStoreService,
+  const mutationExport = useMutation({
+    mutationFn: exportSalesService,
+  });
+  const mutationExportRow = useMutation({
+    mutationFn: exportSalesRowService,
   });
 
-  const onAdd = async (values: StoreSchema) => {
-    values.active = true;
+  const onExportRow = async (_id: string) => {
+    const res = await mutationExportRow.mutateAsync(_id);
+    return res !== null;
+  };
+  const columns = getSalesTableDefinition({ onExportRow });
+
+  const onAdd = async (values: SaleSchema) => {
     const res = await mutationAdd.mutateAsync(values);
     return res !== null;
   };
 
-  const onEdit = async (original: StoreSchema, values: StoreSchema) => {
-    values._id = original._id;
-    const res = await mutationEdit.mutateAsync(values);
+  const onExport = async (
+    filters: Record<string, string> | undefined
+  ): Promise<boolean> => {
+    const res = await mutationExport.mutateAsync(filters);
     return res !== null;
   };
-  const { currentCompany } = useAuth();
+
   return (
     <>
       <PageTitle
@@ -61,19 +74,17 @@ const SalesView = () => {
 
       <Card shadow="sm" padding="lg" radius="md" withBorder w={"500px"}>
         <Group justify="space-between" mt="md" mb="xs">
-          <Text fw={500}>Día {getDateString(new Date())}</Text>
+          <Text fw={500}>Día </Text>
           <Badge color="green">Abierta</Badge>
         </Group>
 
-        <Group align="cente">
+        <Group align="center" justify="stretch">
           <div>
-            <Text>Ventas</Text>
-            <Text>20</Text>
+            <CardInfo value={"0"} title={"Productos"} />
           </div>
           <Divider orientation="vertical" />
           <div>
-            <Text>Pedidos</Text>
-            <Text>5</Text>
+            <CardInfo value={"5"} title={"Pedidos"} />
           </div>
         </Group>
 
@@ -83,17 +94,17 @@ const SalesView = () => {
       </Card>
       <Space m="lg" />
 
-      <CrudTable<StoreSchema>
+      <CrudTable<SaleSchema>
         columns={columns}
-        endpoint={"stores"}
+        endpoint={"sales"}
         server={appConfig.API_BACKEND_URL}
+        filterForm={formFilter}
         fieldsForms={{
           add: formAdd,
-          edit: formEdit,
         }}
         actions={{
           onAdd: onAdd,
-          onEdit: onEdit,
+          onExport: onExport,
         }}
       />
     </>
