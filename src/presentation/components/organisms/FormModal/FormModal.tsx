@@ -2,7 +2,7 @@ import { Button, Group, Modal, Space } from "@mantine/core";
 import GenericForm from "../GenericForm/GenericForm";
 import { FormFieldSchema } from "@/domain/schemas/FormFieldSchema";
 import { useCustomForm } from "@/presentation/hooks/useCustomForm";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AsyncButton from "../../atoms/AsyncButton/AsyncButton";
 import { notifications } from "@mantine/notifications";
 
@@ -13,9 +13,13 @@ interface Props {
   fields: FormFieldSchema[];
   form: any; // TODO: change type
   title: string;
+  aditionalComponentTop?: React.ReactNode;
+  aditionalComponentBottom?: React.ReactNode;
 }
 
 const FormModal = ({
+  aditionalComponentTop,
+  aditionalComponentBottom,
   opened,
   onClose,
   fields,
@@ -65,6 +69,7 @@ const FormModal = ({
         blur: 3,
       }}
     >
+      {aditionalComponentTop}
       <GenericForm form={form} fields={fields} />
       <Space h="lg" />
       <Group justify="right" gap="sm">
@@ -80,6 +85,7 @@ const FormModal = ({
         >
           Cancelar
         </Button>
+        {aditionalComponentBottom}
       </Group>
     </Modal>
   );

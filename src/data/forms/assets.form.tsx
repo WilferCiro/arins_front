@@ -3,6 +3,7 @@ import { AssetsCategories } from "../constants/AssetsCategories";
 import { appConfig } from "../config/app_config";
 import { AssetAssessment } from "@/domain/enums/AssetAssessment";
 import { AssetStatus } from "@/domain/enums/AssetStatus";
+import { IconFileTypeXls } from "@tabler/icons-react";
 
 export const getAssetsFormAdd = (): FormFieldSchema[] => {
   const fields: FormFieldSchema[] = [
@@ -21,7 +22,7 @@ export const getAssetsFormAdd = (): FormFieldSchema[] => {
       required: true,
       prefix: "$ ",
       thousandSeparator: " ",
-      allowNegative: false
+      allowNegative: false,
     },
     {
       type: "select",
@@ -151,6 +152,31 @@ export const getAssetsFormFilter = (): FormFieldSchema[] => {
         label: AssetAssessment[key],
         value: key,
       })),
+    },
+  ];
+
+  return fields;
+};
+
+export const getAssetsMassiveForm = (): FormFieldSchema[] => {
+  const fields: FormFieldSchema[] = [
+    {
+      type: "select_search",
+      label: "Dependencia",
+      name: "dependency_id",
+      placeholder: "Seleccione la dependencia",
+      endpoint: appConfig.API_BACKEND_URL + "/dependencies/select",
+      required: true,
+    },
+    {
+      type: "file",
+      label: "Archivo Excel",
+      name: "excel_file",
+      placeholder: "Seleccione el archivo .xlsx",
+      accept:
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel",
+      required: true,
+      leftSection: <IconFileTypeXls />,
     },
   ];
 

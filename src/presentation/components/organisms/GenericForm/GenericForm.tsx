@@ -2,6 +2,7 @@
 
 import {
   Checkbox,
+  FileInput,
   MultiSelect,
   NumberInput,
   PasswordInput,
@@ -21,6 +22,7 @@ import {
 } from "@mantine/dates";
 import dayjs from "dayjs";
 import MultiSelectSearchForm from "../../molecules/MultiSelectSearchForm";
+import { IconFileTypeXls } from "@tabler/icons-react";
 
 const formatDate = (date: DateValue | undefined): DateValue | undefined => {
   if (typeof date === "string" && date !== "") {
@@ -55,6 +57,8 @@ const GenericForm = ({ form, fields }: Props) => {
       errorProps: { size: "xs" },
       error: form.formState?.errors[formField.name]?.message,
       disabled: formField.disabled ?? false,
+      leftSection: formField.leftSection ?? undefined,
+      rightSection: formField.rightSection ?? undefined,
     };
     switch (formField.type) {
       case "email":
@@ -222,6 +226,25 @@ const GenericForm = ({ form, fields }: Props) => {
                     field.onChange(value ? value : undefined)
                   }
                   maxDate={formField.showFuture ? undefined : new Date()}
+                />
+              );
+            }}
+          />
+        );
+      case "file":
+        return (
+          <Controller
+            name={formField.name}
+            control={form.control}
+            key={formField.name}
+            render={({ field }) => {
+              return (
+                <FileInput
+                  {...field}
+                  {...props}
+                  accept={formField.accept}
+                  leftSectionPointerEvents="none"
+                  clearable={true}
                 />
               );
             }}

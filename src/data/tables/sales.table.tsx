@@ -80,7 +80,7 @@ export const getSalesTableDefinition = ({
       },
     },
     {
-      Header: "Valor Iva",
+      Header: "Iva ventas",
       Cell: ({ cell }) => {
         const original = cell.row.original;
         return <>{getPriceFormat(getTotalSalesIva(original))}</>;

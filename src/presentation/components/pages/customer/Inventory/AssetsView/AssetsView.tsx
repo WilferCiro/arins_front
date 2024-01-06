@@ -25,8 +25,9 @@ import { AssetSchema } from "@/domain/schemas/AssetSchema";
 import { DependencySchema } from "@/domain/schemas/DependencySchema";
 import PageTitle from "@/presentation/components/atoms/PageTitle";
 import CrudTable from "@/presentation/components/organisms/CrudTable";
+import ModalMassiveAssets from "@/presentation/components/organisms/ModalMassiveAssets";
 import { ContextAuth, useAuth } from "@/presentation/context/ContextAuth";
-import { Divider } from "@mantine/core";
+import { Button, Divider } from "@mantine/core";
 import { IconAsset, IconBuildingFortress } from "@tabler/icons-react";
 import { useContext, useMemo } from "react";
 import { useMutation } from "react-query";
@@ -89,6 +90,7 @@ const AssetsView = () => {
         endpoint={"assets"}
         server={appConfig.API_BACKEND_URL}
         filterForm={formFilter}
+        headerRight={<ModalMassiveAssets />}
         fieldsForms={{
           add: formAdd,
           edit: formEdit,

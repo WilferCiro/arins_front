@@ -1,5 +1,6 @@
 import { FormFieldSchema } from "@/domain/schemas/FormFieldSchema";
 import { appConfig } from "../config/app_config";
+import { StoreSchema } from "@/domain/schemas/StoreSchema";
 
 export const getSalesFormAdd = (): FormFieldSchema[] => {
   const fields: FormFieldSchema[] = [
@@ -11,7 +12,7 @@ export const getSalesFormAdd = (): FormFieldSchema[] => {
       required: true,
       prefix: "$ ",
       thousandSeparator: " ",
-      allowNegative: false
+      allowNegative: false,
     },
     {
       type: "select_search",
@@ -26,7 +27,13 @@ export const getSalesFormAdd = (): FormFieldSchema[] => {
   return fields;
 };
 
-export const getSalesFormFilter = (): FormFieldSchema[] => {
+interface PropsFilter {
+  stores: StoreSchema[] | null;
+}
+
+export const getSalesFormFilter = ({
+  stores,
+}: PropsFilter): FormFieldSchema[] => {
   const fields: FormFieldSchema[] = [
     {
       type: "daterange",
@@ -35,11 +42,38 @@ export const getSalesFormFilter = (): FormFieldSchema[] => {
       clearable: true,
     },
     {
-      type: "select_search",
+      type: "select",
       name: "store_id",
       placeholder: "Seleccione la bodega",
-      endpoint: appConfig.API_BACKEND_URL + "/stores/select",
+      options: (stores || [])?.map((store) => ({
+        label: store.name,
+        value: store._id || "",
+      })),
+      initialValue: (stores || [])?.[0]?._id,
       required: true,
+    },
+  ];
+
+  return fields;
+};
+
+export const getSalesOrderFormAdd = (): FormFieldSchema[] => {
+  const fields: FormFieldSchema[] = [
+    {
+      type: "number",
+      name: "price",
+      label: "Valor del pedido",
+      placeholder: "Agrega el valor del pedido",
+      required: true,
+      prefix: "$ ",
+      thousandSeparator: " ",
+      allowNegative: false,
+    },
+    {
+      type: "textarea",
+      label: "Descripción",
+      name: "description",
+      placeholder: "Agrega una descripción del pedido",
     },
   ];
 

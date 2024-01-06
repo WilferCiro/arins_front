@@ -4,10 +4,10 @@ export const metadata = {
   title: "Arins :: Venta del día",
 };
 
-const SalesIdPage = () => {
+const SalesIdPage = ({ params }: { params: { _id: string } }) => {
   return (
     <>
-      <SalesIdView />
+      <SalesIdView sale_id={params._id} />
     </>
   );
 };

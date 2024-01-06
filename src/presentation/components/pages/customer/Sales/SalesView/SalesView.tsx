@@ -1,15 +1,13 @@
 "use client";
 import { appConfig } from "@/data/config/app_config";
 import { getSalesFormAdd, getSalesFormFilter } from "@/data/forms/sales.form";
-import { getStoresFormAdd } from "@/data/forms/stores.form";
 import {
   addSaleService,
   exportSalesRowService,
   exportSalesService,
+  getActiveSalesService,
 } from "@/data/services/sales.services";
-import { addStoreService } from "@/data/services/stores.services";
 import { getSalesTableDefinition } from "@/data/tables/sales.table";
-import { getStoresTableDefinition } from "@/data/tables/stores.table";
 import getDateString from "@/domain/adapters/getDateString";
 import { SaleSchema } from "@/domain/schemas/SaleSchema";
 import { StoreSchema } from "@/domain/schemas/StoreSchema";
@@ -26,13 +24,31 @@ import {
   Space,
   Text,
 } from "@mantine/core";
-import { IconCash } from "@tabler/icons-react";
+import { IconArrowRight, IconCash } from "@tabler/icons-react";
+import Link from "next/link";
 import { useMemo } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
-const SalesView = () => {
+interface Props {
+  stores: StoreSchema[] | null;
+}
+
+const SalesView = ({ stores }: Props) => {
   const formAdd = useMemo(() => getSalesFormAdd(), []);
-  const formFilter = useMemo(() => getSalesFormFilter(), []);
+  const formFilter = useMemo(
+    () => getSalesFormFilter({ stores: stores || [] }),
+    [stores]
+  );
+
+  const { data: salesData, isFetching } = useQuery(
+    [`sale_active_id`],
+    () => getActiveSalesService(),
+    {
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+    }
+  );
+
   const { currentCompany } = useAuth();
 
   const mutationAdd = useMutation({
@@ -72,26 +88,51 @@ const SalesView = () => {
       />
       <Divider m="lg" />
 
-      <Card shadow="sm" padding="lg" radius="md" withBorder w={"500px"}>
-        <Group justify="space-between" mt="md" mb="xs">
-          <Text fw={500}>Día </Text>
-          <Badge color="green">Abierta</Badge>
-        </Group>
+      <Group>
+        {(salesData || []).map((sale) => {
+          return (
+            <Card
+              shadow="sm"
+              padding="sm"
+              radius="md"
+              w={"350px"}
+              key={sale.store._id}
+            >
+              <Group justify="space-between" mt="md" mb="xs">
+                <div>
+                  <Text fw={700} size="md">
+                    {sale.store.name}
+                  </Text>
+                  <Text fw={300} size="sm">
+                    Día {getDateString(new Date())}
+                  </Text>
+                </div>
+                {sale.active ? (
+                  <Badge color="green">Abierta</Badge>
+                ) : (
+                  <Badge color="blue">Cerrada</Badge>
+                )}
+              </Group>
 
-        <Group align="center" justify="stretch">
-          <div>
-            <CardInfo value={"0"} title={"Productos"} />
-          </div>
-          <Divider orientation="vertical" />
-          <div>
-            <CardInfo value={"5"} title={"Pedidos"} />
-          </div>
-        </Group>
-
-        <Button color="blue" fullWidth mt="md" radius="md">
-          Continuar con las ventas del día
-        </Button>
-      </Card>
+              {sale.sale ? (
+                <Link href={`/customer/sales/${sale.sale}`}>
+                  <Button
+                    color="blue"
+                    fullWidth
+                    mt="md"
+                    radius="md"
+                    rightSection={<IconArrowRight />}
+                  >
+                    Continuar con las ventas del día
+                  </Button>
+                </Link>
+              ) : (
+                <>Crea la venta del día en la tabla</>
+              )}
+            </Card>
+          );
+        })}
+      </Group>
       <Space m="lg" />
 
       <CrudTable<SaleSchema>

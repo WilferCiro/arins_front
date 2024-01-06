@@ -7,9 +7,12 @@ import {
   IconBuildingCommunity,
   IconBuildingStore,
   IconCashBanknote,
+  IconDoor,
+  IconDoorEnter,
   IconFile,
   IconHome2,
   IconPdf,
+  IconUser,
   IconUsers,
 } from "@tabler/icons-react";
 import Link from "next/link";
@@ -123,7 +126,7 @@ const CustomNavbar = ({ desktopOpened, toggleDesktop }: Props) => {
         <NavLink
           component={Link}
           href="/customer/products"
-          label="Products"
+          label="Productos"
           color="blue"
           active={pathname === "/customer/products"}
           leftSection={<IconBox size="1rem" stroke={1.5} />}
@@ -136,15 +139,47 @@ const CustomNavbar = ({ desktopOpened, toggleDesktop }: Props) => {
           active={pathname === "/customer/sales"}
           leftSection={<IconCashBanknote size="1rem" stroke={1.5} />}
         />
-        <NavLink
+        {/*<NavLink
           component={Link}
           href="/customer/product_reports"
           label="Reportes"
           color="blue"
           active={pathname === "/customer/product_reports"}
           leftSection={<IconPdf size="1rem" stroke={1.5} />}
-        />
+      />*/}
       </NavLink>
+      {/*<NavLink
+        href="#required-for-focus"
+        label="Gestión de ingreso"
+        leftSection={<IconDoorEnter size="1rem" stroke={1.5} />}
+        childrenOffset={28}
+        color="red"
+        defaultOpened={true}
+        active={[
+          "/customer/stores",
+          "/customer/products",
+          "/customer/sales",
+          "/customer/product_reports",
+        ].includes(pathname || "")}
+        variant="subtle"
+      >
+        <NavLink
+          component={Link}
+          href="/customer/ingress"
+          label="Usuarios"
+          color="red"
+          active={pathname === "/customer/ingress"}
+          leftSection={<IconUser size="1rem" stroke={1.5} />}
+        />
+        <NavLink
+          component={Link}
+          href="/customer/ingress"
+          label="Ingresos"
+          color="red"
+          active={pathname === "/customer/ingress"}
+          leftSection={<IconUser size="1rem" stroke={1.5} />}
+        />
+      </NavLink>*/}
     </>
   );
 };

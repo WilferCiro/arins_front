@@ -45,15 +45,15 @@ const CrudTable = <T extends object>({
   fieldsForms,
 }: Props<T>) => {
   const queryClient = useQueryClient();
-  const [filters, setFilters] = useState<Record<string, string> | undefined>(
-    undefined
-  );
 
   const fieldsFilter = useMemo(
     () => filterForm || getTableSearchFormDefinition(),
     [filterForm]
   );
-  const { form } = useCustomForm(fieldsFilter);
+  const { form, initialValues } = useCustomForm(fieldsFilter);
+  const [filters, setFilters] = useState<Record<string, string> | undefined>(
+    initialValues || undefined
+  );
 
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(10);

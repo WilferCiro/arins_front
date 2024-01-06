@@ -96,5 +96,6 @@ export const useCustomForm = <T>(fields: FormFieldSchema[]) => {
 
   return {
     form,
+    initialValues: getInitialValues(fields)
   };
 };
