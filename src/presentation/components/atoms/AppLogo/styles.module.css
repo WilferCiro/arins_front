@@ -1,10 +1,10 @@
 .container {
-    background: white;
-    border-radius: var(--mantine-radius-md);
-    width: 100%;
+  background: white;
+  border-radius: var(--mantine-radius-md);
+  width: 100%;
 }
 
 .container img {
-    width: 100%;
-    height: auto;
+  width: 100%;
+  height: auto;
 }

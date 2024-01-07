@@ -12,6 +12,7 @@ import AllProviders from "@/presentation/components/organisms/AllProviders/AllPr
 import "./globals.css";
 import { cookies } from "next/headers";
 import NextTopLoader from "nextjs-toploader";
+import "@/domain/adapters/dayjsExt";
 
 const inter = Montserrat({
   subsets: ["latin"],

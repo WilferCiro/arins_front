@@ -8,13 +8,7 @@ import { useMutation } from "react-query";
 
 // Mantine
 import { Button, Card, Divider, Space, ThemeIcon } from "@mantine/core";
-import {
-  IconBrandGoogle,
-  IconRegistered,
-  IconShieldCheck,
-  IconSignature,
-} from "@tabler/icons-react";
-import { nprogress } from "@mantine/nprogress";
+import { IconDoorEnter, IconShieldCheck } from "@tabler/icons-react";
 
 // Custom
 import style from "./style.module.css";
@@ -22,26 +16,27 @@ import AsyncButton from "../../atoms/AsyncButton";
 import AppLogo from "../../atoms/AppLogo";
 import {
   LoginServiceProps,
+  SignUpServiceProps,
   signInService,
+  signUpService,
 } from "@/data/services/auth.services";
 import GenericForm from "../GenericForm";
 import { useContext, useMemo } from "react";
-import { getLoginFormDefinition } from "@/data/forms/login.form";
+import { getSignupFormDefinition } from "@/data/forms/login.form";
 import { useCustomForm } from "@/presentation/hooks/useCustomForm";
 import { LoginSchema } from "@/domain/schemas/LoginSchema";
 import { ContextAuth } from "@/presentation/context/ContextAuth";
-import { GoogleLogin } from "@react-oauth/google";
 import Link from "next/link";
 
-const LoginForm = () => {
+const SignUpForm = () => {
   const { login } = useContext(ContextAuth);
-  const fieldsForm = useMemo(() => getLoginFormDefinition(), []);
+  const fieldsForm = useMemo(() => getSignupFormDefinition(), []);
   const { form } = useCustomForm<LoginSchema>(fieldsForm);
 
   const router = useRouter();
 
   const mutation = useMutation({
-    mutationFn: signInService,
+    mutationFn: signUpService,
     onSuccess: (result: { token: string } | null) => {
       if (result?.token) {
         login(result.token);
@@ -54,7 +49,7 @@ const LoginForm = () => {
     await form.trigger();
     const valid = form.formState.isValid;
     if (valid) {
-      await mutation.mutateAsync(form.getValues() as LoginServiceProps);
+      await mutation.mutateAsync(form.getValues() as SignUpServiceProps);
     }
     return true;
   };
@@ -66,37 +61,24 @@ const LoginForm = () => {
           <div className={style.image}>
             <AppLogo />
           </div>
-          <Divider
-            m="md"
-            label={
-              <ThemeIcon variant="light" color="primary" size={"60px"}>
-                <IconShieldCheck size={"40px"} />
-              </ThemeIcon>
-            }
-          />
+          <Space p="md" />
+          <h2>Registrarme en Arins</h2>
+          <Space p="md" />
           <GenericForm form={form} fields={fieldsForm} />
           <div>
             <Space m={"lg"} />
             <AsyncButton
               fullWidth
               onClick={onFinish}
-              label="Iniciar sesión"
+              label="Registrarme"
               showError={true}
             />
             <Divider m="lg" label="Ó" />
-            <Link href="/signup">
-              <Button fullWidth leftSection={<IconSignature />} variant="light">
-                Registrarse
+            <Link href="/login">
+              <Button fullWidth leftSection={<IconDoorEnter />} variant="light">
+                Iniciar sesión
               </Button>
             </Link>
-            {/*<AsyncButton
-              fullWidth
-              onClick={onFinish}
-              label="Iniciar con google"
-              showError={true}
-              leftIcon={<IconBrandGoogle />}
-              variant="light"
-          />*/}
           </div>
         </div>
       </Card>
@@ -104,4 +86,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default SignUpForm;

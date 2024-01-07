@@ -13,6 +13,15 @@ export async function addProductService(
     body: { ...data },
   });
 }
+export async function addMassiveProductService(
+  data: ProductSchema[]
+): Promise<number | null> {
+  return await fetchClient({
+    endpoint: endpoint + "/massive",
+    method: "POST",
+    body: { assets: data },
+  });
+}
 
 export async function editProductService(
   data: Partial<ProductSchema>
@@ -33,12 +42,15 @@ export async function deleteProductService(
   });
 }
 
-export async function exportProductService(): Promise<null> {
+export async function exportProductService(
+  filters: Record<string, string> | undefined
+): Promise<null> {
   return await fetchClient({
     endpoint: `${endpoint}/export`,
     method: "POST",
     isFile: true,
-    fileName: "Products.xlsx",
+    fileName: "Productos.xlsx",
+    body: filters,
   });
 }
 

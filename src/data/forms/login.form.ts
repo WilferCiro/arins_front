@@ -22,3 +22,38 @@ export const getLoginFormDefinition = (): FormFieldSchema[] => {
 
   return fields;
 };
+
+export const getSignupFormDefinition = (): FormFieldSchema[] => {
+  const fields: FormFieldSchema[] = [
+    {
+      type: "email",
+      name: "email",
+      label: "Email",
+      placeholder: "Ingrese un nuevo email",
+      required: true,
+    },
+    {
+      type: "password",
+      name: "password",
+      label: "Contraseña",
+      placeholder: "Contraseña",
+      required: true,
+    },
+    {
+      type: "text",
+      name: "firstName",
+      label: "Nombre(s)",
+      placeholder: "Ingrese su(s) nombre(s)",
+      required: true,
+    },
+    {
+      type: "text",
+      name: "lastName",
+      label: "Apellido(s)",
+      placeholder: "Ingrese su(s) apellido(s)",
+      required: true,
+    },
+  ];
+
+  return fields;
+};

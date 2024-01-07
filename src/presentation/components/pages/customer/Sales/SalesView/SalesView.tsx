@@ -115,7 +115,7 @@ const SalesView = ({ stores }: Props) => {
               </Group>
 
               {sale.sale ? (
-                <Link href={`/customer/sales/${sale.sale}`}>
+                <Link href={`/customer/sales/sales/${sale.sale}`}>
                   <Button
                     color="blue"
                     fullWidth

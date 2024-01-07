@@ -3,37 +3,37 @@ import { useDisclosure } from "@mantine/hooks";
 import FormModal from "../FormModal";
 import { useCustomForm } from "@/presentation/hooks/useCustomForm";
 import { useMemo } from "react";
-import { getAssetsMassiveForm } from "@/data/forms/assets.form";
 import { IconDownload } from "@tabler/icons-react";
 import Link from "next/link";
 import { read, utils } from "xlsx";
 import { notifications } from "@mantine/notifications";
-import { AssetSchema } from "@/domain/schemas/AssetSchema";
 import { useMutation, useQueryClient } from "react-query";
-import { addMassiveAssetService } from "@/data/services/assets.services";
+import { ProductSchema } from "@/domain/schemas/ProductSchema";
+import { addMassiveProductService } from "@/data/services/products.services";
+import { getProductsMassiveForm } from "@/data/forms/products.form";
 
-const ModalMassiveAssets = () => {
+const ModalMassiveProducts = () => {
   const queryClient = useQueryClient();
   const [opened, { open, close }] = useDisclosure(false);
-  const fieldsForm = useMemo(() => getAssetsMassiveForm(), []);
+  const fieldsForm = useMemo(() => getProductsMassiveForm(), []);
 
   const { form } = useCustomForm(fieldsForm);
 
   const refreshTable = async () => {
-    await queryClient.refetchQueries([`assets_paginated`], {
+    await queryClient.refetchQueries([`products_paginated`], {
       active: true,
     });
   };
 
   const mutation = useMutation({
-    mutationFn: addMassiveAssetService,
+    mutationFn: addMassiveProductService,
     onSuccess: (result: number | null) => {
       if (result) {
         refreshTable();
         notifications.show({
           color: "green",
           title: "Acción exitosa",
-          message: `Se han agregado ${result} activos exitosamente`,
+          message: `Se han agregado ${result} productos exitosamente`,
         });
       }
     },
@@ -45,19 +45,17 @@ const ModalMassiveAssets = () => {
     const values = form.getValues();
     if (valid) {
       const headers = {
+        "Código de barras": "barcode",
         Nombre: "name",
         Precio: "price",
-        Categoría: "category",
-        Estado: "status",
-        Valoración: "assessment",
+        Cantidad: "quantity",
+        Iva: "iva",
+        Presentación: "presentation",
         Descripción: "description",
-        Placa: "plate",
-        Serial: "serial",
-        "Fecha de adquisición": "acquisitionDate",
       };
       const file = values.excel_file;
       const data = await file.arrayBuffer();
-      const wb = read(data, { dateNF: "yyyy-mm-dd", cellDates: true });
+      const wb = read(data);
       const ws = wb.Sheets[wb.SheetNames[0]]; // get the first worksheet
       const headerRow = utils.sheet_to_json(ws, { header: 1 })[0] as string[];
       const mappedHeaderRow = Object.keys(headers).map((key) =>
@@ -75,11 +73,11 @@ const ModalMassiveAssets = () => {
       }
       const dataExcel = utils.sheet_to_json(ws, {
         header: mappedHeaderRow as string[],
-        range: "A3:I203",
-      }) as AssetSchema[];
+        range: "A3:G203",
+      }) as ProductSchema[];
       const dataFinalExcel = dataExcel.map((dt) => ({
         ...dt,
-        dependency_id: values.dependency_id,
+        store_id: values.store_id,
       }));
 
       const final = await mutation.mutateAsync(dataFinalExcel);
@@ -100,8 +98,8 @@ const ModalMassiveAssets = () => {
         aditionalComponentTop={
           <>
             <Link
-              href="/templates/xlsx/assets.xlsx"
-              download={"template_assets.xlsx"}
+              href="/templates/xlsx/products.xlsx"
+              download={"template_productos.xlsx"}
               target="_blank"
             >
               <Alert
@@ -122,4 +120,4 @@ const ModalMassiveAssets = () => {
   );
 };
 
-export default ModalMassiveAssets;
+export default ModalMassiveProducts;

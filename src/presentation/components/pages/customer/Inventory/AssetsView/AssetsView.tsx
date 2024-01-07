@@ -6,30 +6,20 @@ import {
   getAssetsFormFilter,
 } from "@/data/forms/assets.form";
 import {
-  getDependenciesFormAdd,
-  getDependenciesFormEdit,
-} from "@/data/forms/dependencies.form";
-import {
   addAssetService,
   deleteAssetService,
   editAssetService,
   exportAssetService,
 } from "@/data/services/assets.services";
-import {
-  addDependencyService,
-  editDependencyService,
-} from "@/data/services/dependencies.services";
 import { getAssetsTableDefinition } from "@/data/tables/assets.table";
-import { getDependenciesTableDefinition } from "@/data/tables/dependencies.table";
 import { AssetSchema } from "@/domain/schemas/AssetSchema";
-import { DependencySchema } from "@/domain/schemas/DependencySchema";
 import PageTitle from "@/presentation/components/atoms/PageTitle";
 import CrudTable from "@/presentation/components/organisms/CrudTable";
 import ModalMassiveAssets from "@/presentation/components/organisms/ModalMassiveAssets";
-import { ContextAuth, useAuth } from "@/presentation/context/ContextAuth";
-import { Button, Divider } from "@mantine/core";
-import { IconAsset, IconBuildingFortress } from "@tabler/icons-react";
-import { useContext, useMemo } from "react";
+import { useAuth } from "@/presentation/context/ContextAuth";
+import { Divider } from "@mantine/core";
+import { IconAsset } from "@tabler/icons-react";
+import { useMemo } from "react";
 import { useMutation } from "react-query";
 
 const AssetsView = () => {

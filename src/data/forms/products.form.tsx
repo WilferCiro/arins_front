@@ -3,6 +3,7 @@ import { AssetsCategories } from "../constants/AssetsCategories";
 import { appConfig } from "../config/app_config";
 import { AssetAssessment } from "@/domain/enums/AssetAssessment";
 import { AssetStatus } from "@/domain/enums/AssetStatus";
+import { IconFileTypeXls } from "@tabler/icons-react";
 
 export const getProductsFormAdd = (): FormFieldSchema[] => {
   const fields: FormFieldSchema[] = [
@@ -27,7 +28,7 @@ export const getProductsFormAdd = (): FormFieldSchema[] => {
       required: true,
       prefix: "$ ",
       thousandSeparator: " ",
-      allowNegative: false
+      allowNegative: false,
     },
     {
       type: "number",
@@ -35,18 +36,18 @@ export const getProductsFormAdd = (): FormFieldSchema[] => {
       label: "Cantidad",
       placeholder: "Ingrese la cantidad sin puntos ni comas",
       required: true,
-      allowNegative: false
+      allowNegative: false,
     },
     {
       type: "number",
       name: "iva",
-      label: "Cantidad",
+      label: "Iva",
       placeholder: "Ingrese el iva de 0-100",
       min: 0,
       max: 100,
       required: true,
       suffix: " %",
-      allowNegative: false
+      allowNegative: false,
     },
     {
       type: "text",
@@ -85,10 +86,35 @@ export const getProductsFormFilter = (): FormFieldSchema[] => {
       required: false,
     },
     {
+      type: "multiselect_search",
+      name: "store_id",
+      placeholder: "Seleccione la bodega",
+      endpoint: appConfig.API_BACKEND_URL + "/stores/select",
+    },
+  ];
+
+  return fields;
+};
+
+export const getProductsMassiveForm = (): FormFieldSchema[] => {
+  const fields: FormFieldSchema[] = [
+    {
+      label: "Bodega",
       type: "select_search",
       name: "store_id",
       placeholder: "Seleccione la bodega",
       endpoint: appConfig.API_BACKEND_URL + "/stores/select",
+      required: true,
+    },
+    {
+      type: "file",
+      label: "Archivo Excel",
+      name: "excel_file",
+      placeholder: "Seleccione el archivo .xlsx",
+      accept:
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel",
+      required: true,
+      leftSection: <IconFileTypeXls />,
     },
   ];
 

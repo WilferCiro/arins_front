@@ -14,15 +14,9 @@ import { Controller } from "react-hook-form";
 import { FormFieldSchema } from "@/domain/schemas/FormFieldSchema";
 import { FormType } from "@/domain/types/FormType";
 import SelectSearchForm from "../../molecules/SelectSearchForm";
-import {
-  DateInput,
-  DatePickerInput,
-  DateValue,
-  DatesRangeValue,
-} from "@mantine/dates";
+import { DatePickerInput, DateValue, DatesRangeValue } from "@mantine/dates";
 import dayjs from "dayjs";
 import MultiSelectSearchForm from "../../molecules/MultiSelectSearchForm";
-import { IconFileTypeXls } from "@tabler/icons-react";
 
 const formatDate = (date: DateValue | undefined): DateValue | undefined => {
   if (typeof date === "string" && date !== "") {
@@ -216,17 +210,27 @@ const GenericForm = ({ form, fields }: Props) => {
             key={formField.name}
             render={({ field }) => {
               return (
-                <DatePickerInput
-                  valueFormat="YYYY MMM DD"
-                  type={formField.type === "daterange" ? "range" : "default"}
-                  {...field}
-                  {...props}
-                  clearable={formField.clearable}
-                  onChange={(value: DateValue | DatesRangeValue | null) =>
-                    field.onChange(value ? value : undefined)
-                  }
-                  maxDate={formField.showFuture ? undefined : new Date()}
-                />
+                <>
+                  <DatePickerInput
+                    valueFormat="DD - MMM - YYYY"
+                    type={formField.type === "daterange" ? "range" : "default"}
+                    {...field}
+                    {...props}
+                    locale="es"
+                    value={
+                      Array.isArray(field.value)
+                        ? (field.value.map((date) =>
+                            dayjs(date).toDate()
+                          ) as DatesRangeValue)
+                        : dayjs(field.value).toDate()
+                    }
+                    clearable={formField.clearable}
+                    onChange={(value: DateValue | DatesRangeValue | null) => {
+                      field.onChange(value ? value : undefined);
+                    }}
+                    maxDate={formField.showFuture ? undefined : new Date()}
+                  />
+                </>
               );
             }}
           />

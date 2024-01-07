@@ -17,6 +17,7 @@ interface Props {
   color?: string;
   fullWidth?: boolean;
   showError?: boolean;
+  variant?: string;
 }
 
 const AsyncButton = ({
@@ -27,6 +28,7 @@ const AsyncButton = ({
   color,
   fullWidth,
   showError,
+  ...props
 }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const buttonClick = async () => {
@@ -53,6 +55,7 @@ const AsyncButton = ({
       disabled={disabled}
       color={color}
       fullWidth={fullWidth || false}
+      {...props}
     >
       {label}
     </Button>

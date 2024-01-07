@@ -9,10 +9,29 @@ import { Card, Divider, Space } from "@mantine/core";
 import { IconFile } from "@tabler/icons-react";
 import { useMemo } from "react";
 
+import styles from "./styles.module.css";
+import { useMutation } from "react-query";
+import { generateReportInventory } from "@/data/services/inventoryReports.services";
+
 const ReportsInventoryView = () => {
   const { currentCompany } = useAuth();
   const fieldsForm = useMemo(() => getReportsInventoryForm(), []);
   const { form } = useCustomForm(fieldsForm);
+
+  const mutation = useMutation({
+    mutationFn: generateReportInventory,
+  });
+
+  const generate = async (): Promise<boolean> => {
+    await form.trigger();
+    const valid = form.formState.isValid;
+    if (!valid) {
+      return false;
+    }
+    const data = await mutation.mutateAsync(form.getValues());
+    return !!data;
+  };
+
   return (
     <>
       <PageTitle
@@ -21,15 +40,20 @@ const ReportsInventoryView = () => {
         icon={<IconFile />}
       />
       <Divider m="lg" />
-      <Card shadow="sm" padding="lg" radius="md" withBorder w={"50%"} m="auto">
+      <Card
+        shadow="sm"
+        padding="lg"
+        radius="md"
+        withBorder
+        m="auto"
+        className={styles.card}
+      >
         <GenericForm form={form} fields={fieldsForm} />
         <Space h={"md"} />
         <AsyncButton
           fullWidth={true}
           label={"Generar informe"}
-          onClick={function (): Promise<boolean | void> {
-            throw new Error("Function not implemented.");
-          }}
+          onClick={generate}
         />
       </Card>
     </>
