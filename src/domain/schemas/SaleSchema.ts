@@ -22,7 +22,7 @@ export interface SaleSchema {
     date: Date;
   }[];
 
-  store: StoreSchema,
+  store: StoreSchema;
   store_id: string;
 
   createdAt: Date;
@@ -38,4 +38,19 @@ export interface SaleAddSaleSchema {
     _id: string;
     quantity: number;
   }[];
+}
+
+export interface SaleOrderAddSchema {
+  price: number;
+  description?: string;
+  sale_id: string;
+}
+
+export interface SaleActiveSchema {
+  store: {
+    _id: string;
+    name: string;
+  };
+  active: boolean;
+  sale?: string;
 }

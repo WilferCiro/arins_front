@@ -17,6 +17,7 @@ interface Props {
   color?: string;
   fullWidth?: boolean;
   showError?: boolean;
+  variant?: string;
 }
 
 const AsyncButton = ({
@@ -26,7 +27,8 @@ const AsyncButton = ({
   disabled,
   color,
   fullWidth,
-  showError
+  showError,
+  ...props
 }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const buttonClick = async () => {
@@ -36,10 +38,10 @@ const AsyncButton = ({
     } catch (e) {
       if (showError) {
         notifications.show({
-          color: 'red',
-          title: 'Notification with custom styles',
-          message: 'It is red',
-        })
+          color: "red",
+          title: "Notification with custom styles",
+          message: "It is red",
+        });
       }
     }
     setLoading(false);
@@ -53,7 +55,7 @@ const AsyncButton = ({
       disabled={disabled}
       color={color}
       fullWidth={fullWidth || false}
-      size={'md'}
+      {...props}
     >
       {label}
     </Button>

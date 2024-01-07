@@ -1,5 +1,6 @@
 import { fetchClient } from "../client/fetchClient";
 import { appConfig } from "../config/app_config";
+import { encryptedApiKey } from "./secure.services";
 
 const endpoint = appConfig.API_BACKEND_URL;
 
@@ -15,10 +16,33 @@ export const signInService = async ({
   return (await fetchClient({
     endpoint: `${endpoint}/auth/login`,
     method: "POST",
-    //customHeaders: {
-    // "api-key": appConfig.API_KEY_LOGIN,
-    //},
+    customHeaders: {
+      "X-api-key": encryptedApiKey(),
+    },
     body: { email, password },
+  })) as { token: string };
+};
+
+export interface SignUpServiceProps {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+}
+
+export const signUpService = async ({
+  email,
+  password,
+  firstName,
+  lastName,
+}: SignUpServiceProps): Promise<{ token: string }> => {
+  return (await fetchClient({
+    endpoint: `${endpoint}/auth/signup`,
+    method: "POST",
+    customHeaders: {
+      "X-api-key": encryptedApiKey(),
+    },
+    body: { email, password, firstName, lastName },
   })) as { token: string };
 };
 

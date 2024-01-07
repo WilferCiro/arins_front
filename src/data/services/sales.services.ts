@@ -1,13 +1,35 @@
-import { SaleAddSaleSchema, SaleAddSchema } from "@/domain/schemas/SaleSchema";
+import {
+  SaleActiveSchema,
+  SaleAddSaleSchema,
+  SaleAddSchema,
+  SaleOrderAddSchema,
+  SaleSchema,
+} from "@/domain/schemas/SaleSchema";
 import { fetchClient } from "../client/fetchClient";
 import { appConfig } from "../config/app_config";
-import { StoreSchema } from "@/domain/schemas/StoreSchema";
 
 const endpoint = `${appConfig.API_BACKEND_URL}/sales`;
 
+export async function getSaleByIdService(
+  id: string
+): Promise<SaleSchema | null> {
+  return await fetchClient({
+    endpoint: endpoint + "/" + id,
+    method: "GET",
+  });
+}
+export async function getActiveSalesService(): Promise<
+  SaleActiveSchema[] | null
+> {
+  return await fetchClient({
+    endpoint: endpoint + "/active",
+    method: "GET",
+  });
+}
+
 export async function addSaleService(
   data: SaleAddSchema
-): Promise<StoreSchema | null> {
+): Promise<SaleSchema | null> {
   return await fetchClient({
     endpoint: endpoint,
     method: "POST",
@@ -17,7 +39,7 @@ export async function addSaleService(
 
 export async function createSaleSaleService(
   data: SaleAddSaleSchema
-): Promise<StoreSchema | null> {
+): Promise<SaleSchema | null> {
   return await fetchClient({
     endpoint: endpoint + "/subsale",
     method: "POST",
@@ -25,6 +47,15 @@ export async function createSaleSaleService(
   });
 }
 
+export async function addSaleOrderService(
+  data: SaleOrderAddSchema
+): Promise<SaleSchema | null> {
+  return await fetchClient({
+    endpoint: endpoint + "/order",
+    method: "POST",
+    body: { ...data },
+  });
+}
 
 export async function exportSalesService(
   filters: Record<string, string> | undefined
@@ -38,9 +69,7 @@ export async function exportSalesService(
   });
 }
 
-export async function exportSalesRowService(
-  _id: string
-): Promise<null> {
+export async function exportSalesRowService(_id: string): Promise<null> {
   return await fetchClient({
     endpoint: `${endpoint}/export/${_id}`,
     method: "POST",

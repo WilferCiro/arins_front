@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ColorSchemeScript, MantineProvider, createTheme } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { generateColors } from "@mantine/colors-generator";
+import "dayjs/locale/es";
 
 // Web3
 import { publicProvider } from "wagmi/providers/public";
@@ -14,6 +15,7 @@ import { WagmiConfig, createConfig, configureChains, mainnet } from "wagmi";
 
 // Custom
 import { ContextProviderAuth } from "@/presentation/context/ContextAuth";
+import { DatesProvider } from "@mantine/dates";
 
 const { publicClient, webSocketPublicClient } = configureChains(
   [mainnet],
@@ -62,10 +64,19 @@ export default function AllProviders({
       <QueryClientProvider client={queryClient}>
         <WagmiConfig config={config}>
           <ColorSchemeScript />
-          <MantineProvider theme={theme}>
-            <Notifications position="top-center" limit={3} zIndex={1000} />
-            {children}
-          </MantineProvider>
+          <DatesProvider
+            settings={{
+              locale: "es",
+              firstDayOfWeek: 0,
+              weekendDays: [0],
+              timezone: "UTC",
+            }}
+          >
+            <MantineProvider theme={theme}>
+              <Notifications position="top-center" limit={3} zIndex={1000} />
+              {children}
+            </MantineProvider>
+          </DatesProvider>
         </WagmiConfig>
       </QueryClientProvider>
     </ContextProviderAuth>

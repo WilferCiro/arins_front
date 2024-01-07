@@ -5,6 +5,7 @@ export const metadata = {
 };
 
 const StoresPage = () => {
+
   return (
     <>
       <StoresView />

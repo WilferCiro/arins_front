@@ -71,7 +71,12 @@ const CustomHeader = ({
           />
         </>
         <div>
-          <Image src="/logo_header.png" alt="Logo" width={32} height={32} />
+          <Image
+            src="/images/logos/logo_large.png"
+            alt="Logo"
+            width={99}
+            height={40}
+          />
         </div>
       </Group>
 

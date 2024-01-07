@@ -1,3 +1,4 @@
+import React from "react";
 import * as Yup from "yup";
 
 interface FormFieldCommonSchema {
@@ -16,11 +17,14 @@ interface FormFieldCommonSchema {
     | "select"
     | "select_search"
     | "multiselect"
-    | "multiselect_search";
+    | "multiselect_search"
+    | "file";
   initialValue?: string | number | boolean;
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
+  leftSection?: React.ReactNode;
+  rightSection?: React.ReactNode;
   validate?: Yup.NumberSchema<number | undefined, Yup.AnyObject, undefined, "">;
 }
 export type FormFieldSchema =
@@ -51,4 +55,8 @@ export type FormFieldSchema =
       type: "date" | "datetime" | "daterange";
       showFuture?: boolean;
       clearable?: boolean;
+    })
+  | (FormFieldCommonSchema & {
+      type: "file";
+      accept?: string;
     });

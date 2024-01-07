@@ -66,6 +66,9 @@ const getValidations = (fields: FormFieldSchema[]) => {
       case "daterange":
         validator = Yup.array().of(Yup.date());
         break;
+      case "date":
+        validator = Yup.date();
+        break;
       default:
         validator = Yup.string();
         break;
@@ -96,5 +99,6 @@ export const useCustomForm = <T>(fields: FormFieldSchema[]) => {
 
   return {
     form,
+    initialValues: getInitialValues(fields),
   };
 };

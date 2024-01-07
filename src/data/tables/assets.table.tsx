@@ -2,7 +2,7 @@
 import getFullDate from "@/domain/adapters/getFullDate";
 import { Column } from "react-table";
 import { AssetSchema } from "@/domain/schemas/AssetSchema";
-import getDateString from "@/domain/adapters/getDateString";
+import getDateTimeString from "@/domain/adapters/getDateTimeString";
 import getSimpleDate from "@/domain/adapters/getSimpleDate";
 import { getPriceFormat } from "@/domain/adapters/getPriceFormat";
 

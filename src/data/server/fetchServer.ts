@@ -22,7 +22,7 @@ export const fetchServer = async <T, U>({
     headers["authorization"] = "Bearer " + token;
   }
   try {
-    const response = await fetch(`http://localhost:5000${endpoint}`, {
+    const response = await fetch(`${endpoint}`, {
       method,
       body: JSON.stringify(body),
       headers,

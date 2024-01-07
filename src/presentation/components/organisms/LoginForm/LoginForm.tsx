@@ -7,8 +7,13 @@ import { useMutation } from "react-query";
 // web3
 
 // Mantine
-import { Card, Divider, Space, ThemeIcon } from "@mantine/core";
-import { IconBrandGoogle, IconShieldCheck } from "@tabler/icons-react";
+import { Button, Card, Divider, Space, ThemeIcon } from "@mantine/core";
+import {
+  IconBrandGoogle,
+  IconRegistered,
+  IconShieldCheck,
+  IconSignature,
+} from "@tabler/icons-react";
 import { nprogress } from "@mantine/nprogress";
 
 // Custom
@@ -25,6 +30,8 @@ import { getLoginFormDefinition } from "@/data/forms/login.form";
 import { useCustomForm } from "@/presentation/hooks/useCustomForm";
 import { LoginSchema } from "@/domain/schemas/LoginSchema";
 import { ContextAuth } from "@/presentation/context/ContextAuth";
+import { GoogleLogin } from "@react-oauth/google";
+import Link from "next/link";
 
 const LoginForm = () => {
   const { login } = useContext(ContextAuth);
@@ -62,7 +69,7 @@ const LoginForm = () => {
           <Divider
             m="md"
             label={
-              <ThemeIcon variant="light" color="secondary" size={"60px"}>
+              <ThemeIcon variant="light" color="primary" size={"60px"}>
                 <IconShieldCheck size={"40px"} />
               </ThemeIcon>
             }
@@ -77,13 +84,19 @@ const LoginForm = () => {
               showError={true}
             />
             <Divider m="lg" label="Ó" />
-            <AsyncButton
+            <Link href="/signup">
+              <Button fullWidth leftSection={<IconSignature />} variant="light">
+                Registrarse
+              </Button>
+            </Link>
+            {/*<AsyncButton
               fullWidth
               onClick={onFinish}
               label="Iniciar con google"
               showError={true}
               leftIcon={<IconBrandGoogle />}
-            />
+              variant="light"
+          />*/}
           </div>
         </div>
       </Card>

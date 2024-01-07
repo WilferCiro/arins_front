@@ -9,12 +9,13 @@ import {
   addProductService,
   deleteProductService,
   editProductService,
+  exportProductService,
 } from "@/data/services/products.services";
 import { getProductsTableDefinition } from "@/data/tables/products.table";
-import { AssetSchema } from "@/domain/schemas/AssetSchema";
 import { ProductSchema } from "@/domain/schemas/ProductSchema";
 import PageTitle from "@/presentation/components/atoms/PageTitle";
 import CrudTable from "@/presentation/components/organisms/CrudTable";
+import ModalMassiveProducts from "@/presentation/components/organisms/ModalMassiveProducts";
 import { ContextAuth } from "@/presentation/context/ContextAuth";
 import { Divider } from "@mantine/core";
 import { IconBox } from "@tabler/icons-react";
@@ -38,6 +39,9 @@ const ProductsView = () => {
   const mutationDelete = useMutation({
     mutationFn: deleteProductService,
   });
+  const mutationExport = useMutation({
+    mutationFn: exportProductService,
+  });
 
   const onAdd = async (values: ProductSchema) => {
     const res = await mutationAdd.mutateAsync(values);
@@ -58,6 +62,13 @@ const ProductsView = () => {
     return res !== null;
   };
 
+  const onExport = async (
+    filters: Record<string, string> | undefined
+  ): Promise<boolean> => {
+    const res = await mutationExport.mutateAsync(filters);
+    return res !== null;
+  };
+
   return (
     <>
       <PageTitle
@@ -71,6 +82,7 @@ const ProductsView = () => {
         endpoint={"products"}
         server={appConfig.API_BACKEND_URL}
         filterForm={formFilter}
+        headerRight={<ModalMassiveProducts />}
         fieldsForms={{
           add: formAdd,
           edit: formEdit,
@@ -79,6 +91,7 @@ const ProductsView = () => {
           onAdd: onAdd,
           onEdit: onEdit,
           onDelete: onDelete,
+          onExport: onExport,
         }}
       />
     </>

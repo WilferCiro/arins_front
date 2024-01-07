@@ -1,4 +1,5 @@
 import { FormFieldSchema } from "@/domain/schemas/FormFieldSchema";
+import { IconGlass, IconSearch } from "@tabler/icons-react";
 
 export const getTableSearchFormDefinition = (): FormFieldSchema[] => {
   const fields: FormFieldSchema[] = [
@@ -7,6 +8,7 @@ export const getTableSearchFormDefinition = (): FormFieldSchema[] => {
       name: "search",
       placeholder: "Ingrese un filtro",
       required: false,
+      rightSection: <IconSearch />,
     },
   ];
 

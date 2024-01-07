@@ -5,11 +5,11 @@ import AsyncButton from "@/presentation/components/atoms/AsyncButton";
 import FormModal from "@/presentation/components/organisms/FormModal";
 import GenericForm from "@/presentation/components/organisms/GenericForm";
 import { useCustomForm } from "@/presentation/hooks/useCustomForm";
-import { Button, Flex, Grid, Modal, Tooltip } from "@mantine/core";
+import { Button, Flex, Grid, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconFileExport, IconSearch } from "@tabler/icons-react";
+import { IconCirclePlus, IconDownload } from "@tabler/icons-react";
 import { ReactElement, useEffect } from "react";
-
+import styles from "./styles.module.css";
 interface Props<T> {
   headerRight?: ReactElement;
   filterAction: () => void;
@@ -69,45 +69,44 @@ const TableCrudHeader = <T extends object>({
   return (
     <>
       <Grid justify="space-between" align="center">
-        <Grid.Col span={6}>
-          <Flex gap={3}>
-            <div
-              style={{
-                width: "100%",
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr 1fr",
-                gridGap: "7px",
-              }}
-            >
-              <GenericForm form={formFilter} fields={fieldsFilter} />
-            </div>
-          </Flex>
+        <Grid.Col span={{ base: 12, md: 7, lg: 7 }}>
+          <div className={styles.header_filters}>
+            <GenericForm form={formFilter} fields={fieldsFilter} />
+          </div>
         </Grid.Col>
+        <Grid.Col span={{ base: 12, md: 5, lg: 5 }}>
+          <Group justify="flex-end">
+            {headerRight}
 
-        <Grid.Col span={2}>{headerRight}</Grid.Col>
-
-        {actions?.onExport && (
-          <AsyncButton
-            onClick={onExport}
-            leftIcon={<IconFileExport size="1.125rem" />}
-            label={"Exportar"}
-          />
-        )}
-        {fieldsFormAdd && actions?.onAdd && (
-          <>
-            <FormModal
-              opened={openedAddModal}
-              onClose={closeAddModal}
-              onAccept={onAdd}
-              fields={fieldsFormAdd}
-              form={formAdd}
-              title={"Crear registro"}
-            />
-            <Grid.Col span={2}>
-              <Button onClick={openAdd}>Agregar</Button>
-            </Grid.Col>
-          </>
-        )}
+            {actions?.onExport && (
+              <AsyncButton
+                onClick={onExport}
+                leftIcon={<IconDownload size="1.125rem" />}
+                label={"Exportar"}
+              />
+            )}
+            {fieldsFormAdd && actions?.onAdd && (
+              <>
+                <FormModal
+                  opened={openedAddModal}
+                  onClose={closeAddModal}
+                  onAccept={onAdd}
+                  fields={fieldsFormAdd}
+                  form={formAdd}
+                  title={"Crear registro"}
+                />
+                <Button
+                  onClick={openAdd}
+                  variant="light"
+                  color="blue"
+                  rightSection={<IconCirclePlus />}
+                >
+                  Agregar
+                </Button>
+              </>
+            )}
+          </Group>
+        </Grid.Col>
       </Grid>
     </>
   );

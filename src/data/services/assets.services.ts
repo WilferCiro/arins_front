@@ -13,6 +13,15 @@ export async function addAssetService(
     body: { ...data },
   });
 }
+export async function addMassiveAssetService(
+  data: AssetSchema[]
+): Promise<number | null> {
+  return await fetchClient({
+    endpoint: endpoint + "/massive",
+    method: "POST",
+    body: { assets: data },
+  });
+}
 
 export async function editAssetService(
   data: Partial<AssetSchema>

@@ -1,0 +1,12 @@
+.header_filters {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 7px;
+}
+
+@media (max-width: 767px) {
+  .header_filters {
+    grid-template-columns: 1fr 1fr;
+  }
+}

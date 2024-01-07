@@ -1,3 +1,21 @@
+export interface CompanyAccessSchema {
+  inventory?: {
+    price: number;
+    expiration: Date;
+    active: boolean;
+  };
+  sales?: {
+    price: number;
+    expiration: Date;
+    active: boolean;
+  };
+  entry?: {
+    price: number;
+    expiration: Date;
+    active: boolean;
+  };
+}
+
 export interface CompanySchema {
   _id?: string;
   name: string;
@@ -10,4 +28,5 @@ export interface CompanySchema {
   active: boolean;
   createdAt?: Date;
   updatedAt?: Date;
+  access?: CompanyAccessSchema;
 }
