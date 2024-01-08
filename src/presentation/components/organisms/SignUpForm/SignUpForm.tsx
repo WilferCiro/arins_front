@@ -7,17 +7,15 @@ import { useMutation } from "react-query";
 // web3
 
 // Mantine
-import { Button, Card, Divider, Space, ThemeIcon } from "@mantine/core";
-import { IconDoorEnter, IconShieldCheck } from "@tabler/icons-react";
+import { Button, Card, Divider, Space } from "@mantine/core";
+import { IconDoorEnter } from "@tabler/icons-react";
 
 // Custom
 import style from "./style.module.css";
 import AsyncButton from "../../atoms/AsyncButton";
 import AppLogo from "../../atoms/AppLogo";
 import {
-  LoginServiceProps,
   SignUpServiceProps,
-  signInService,
   signUpService,
 } from "@/data/services/auth.services";
 import GenericForm from "../GenericForm";
