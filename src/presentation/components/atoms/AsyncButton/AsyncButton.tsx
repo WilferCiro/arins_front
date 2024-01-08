@@ -36,11 +36,12 @@ const AsyncButton = ({
     try {
       await onClick();
     } catch (e) {
+      console.log(e);
       if (showError) {
         notifications.show({
           color: "red",
-          title: "Notification with custom styles",
-          message: "It is red",
+          title: `Error al ejecutar la acción`,
+          message: `${e}`,
         });
       }
     }
