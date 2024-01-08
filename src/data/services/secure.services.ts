@@ -1,9 +1,10 @@
-import crypto from "crypto";
+// import crypto from "crypto";
 import { appConfig } from "../config/app_config";
 
 const encryptWithPublicKey = () => {
   const data = `${appConfig.KEY_KEYWORD}-${new Date().getMinutes()}`;
-  const bufferData = Buffer.from(data, "utf8");
+  return data;
+  /*const bufferData = Buffer.from(data, "utf8");
   const bufferPublicKey = Buffer.from(appConfig.PUBLIC_KEY, "utf8");
 
   const encryptedData = crypto.publicEncrypt(
@@ -13,7 +14,7 @@ const encryptWithPublicKey = () => {
     },
     bufferData
   );
-  return encryptedData.toString("base64");
+  return encryptedData.toString("base64");*/
 };
 
 export const encryptedApiKey = encryptWithPublicKey;

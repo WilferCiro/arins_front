@@ -8,13 +8,7 @@ import { useMutation } from "react-query";
 
 // Mantine
 import { Button, Card, Divider, Space, ThemeIcon } from "@mantine/core";
-import {
-  IconBrandGoogle,
-  IconRegistered,
-  IconShieldCheck,
-  IconSignature,
-} from "@tabler/icons-react";
-import { nprogress } from "@mantine/nprogress";
+import { IconShieldCheck, IconSignature } from "@tabler/icons-react";
 
 // Custom
 import style from "./style.module.css";
@@ -30,7 +24,6 @@ import { getLoginFormDefinition } from "@/data/forms/login.form";
 import { useCustomForm } from "@/presentation/hooks/useCustomForm";
 import { LoginSchema } from "@/domain/schemas/LoginSchema";
 import { ContextAuth } from "@/presentation/context/ContextAuth";
-import { GoogleLogin } from "@react-oauth/google";
 import Link from "next/link";
 
 const LoginForm = () => {
