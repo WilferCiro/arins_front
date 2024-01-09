@@ -8,3 +8,9 @@ export interface UserSchema {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+
+export interface UserPasswordSchema {
+  last_password: string;
+  password: string;
+}

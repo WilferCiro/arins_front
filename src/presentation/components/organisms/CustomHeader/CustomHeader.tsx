@@ -17,8 +17,6 @@ import {
 } from "@mantine/core";
 
 //Custom
-import { signOut } from "next-auth/react";
-import { nprogress } from "@mantine/nprogress";
 import Image from "next/image";
 import CompanySelector from "../../molecules/CompanySelector/CompanySelector";
 import { useContext } from "react";
@@ -45,6 +43,10 @@ const CustomHeader = ({
   const closeSession = () => {
     logout();
     router.replace("/login");
+  };
+
+  const goToProfile = () => {
+    router.replace("/customer/profile");
   };
 
   return (
@@ -101,6 +103,13 @@ const CustomHeader = ({
               onClick={() => toggleColorScheme()}
             >
               {dark ? <>Cambiar a claro</> : <>Cambiar a oscuro</>}
+            </Menu.Item>
+            <Menu.Item
+              leftSection={<IconUser size="1.1rem" />}
+              component="button"
+              onClick={() => goToProfile()}
+            >
+              Mi perfil
             </Menu.Item>
             <Menu.Divider />
             <Menu.Item

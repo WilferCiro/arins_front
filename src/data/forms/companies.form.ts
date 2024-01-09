@@ -1,4 +1,7 @@
+import { validateCopNit } from "@/domain/adapters/validateCopRut";
+import { validatePhoneNumber } from "@/domain/adapters/validatePhoneNumber";
 import { FormFieldSchema } from "@/domain/schemas/FormFieldSchema";
+import * as Yup from "yup";
 
 export const getCompaniesFormAdd = (): FormFieldSchema[] => {
   const fields: FormFieldSchema[] = [
@@ -21,6 +24,13 @@ export const getCompaniesFormAdd = (): FormFieldSchema[] => {
       name: "nit",
       label: "Nit",
       placeholder: "Ingrese el nit",
+      validate: Yup.string()
+        .required("El RUT es obligatorio")
+        .test(
+          "validateCopNit",
+          "Ingrese un NIT colombiano válido (XXXXXXXXX-X)",
+          validateCopNit
+        ),
     },
     {
       type: "text",
@@ -33,6 +43,12 @@ export const getCompaniesFormAdd = (): FormFieldSchema[] => {
       name: "cellphone",
       label: "Celular",
       placeholder: "ej: +57 XXXXXXXX",
+      validate: Yup.string()
+        .test(
+          "validatePhoneNumber",
+          "Ingrese un número celular válido con extensión (+573XXXXXXXXX)",
+          validatePhoneNumber
+        ),
     },
     {
       type: "text",

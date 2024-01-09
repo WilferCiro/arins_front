@@ -56,10 +56,6 @@ const SignUpForm = () => {
     <>
       <Card className={style.form} radius="md">
         <div>
-          <div className={style.image}>
-            <AppLogo />
-          </div>
-          <Space p="md" />
           <h2>Registrarme en Arins</h2>
           <Space p="md" />
           <GenericForm form={form} fields={fieldsForm} />

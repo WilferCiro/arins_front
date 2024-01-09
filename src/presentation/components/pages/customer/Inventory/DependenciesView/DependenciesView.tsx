@@ -59,9 +59,6 @@ const DependenciesView = () => {
         columns={columns}
         endpoint={"dependencies"}
         server={appConfig.API_BACKEND_URL}
-        limits={{
-          add: 1
-        }}
         fieldsForms={{
           add: formAdd,
           edit: formEdit,

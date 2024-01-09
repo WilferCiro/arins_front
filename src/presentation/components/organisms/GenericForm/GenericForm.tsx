@@ -17,6 +17,7 @@ import SelectSearchForm from "../../molecules/SelectSearchForm";
 import { DatePickerInput, DateValue, DatesRangeValue } from "@mantine/dates";
 import dayjs from "dayjs";
 import MultiSelectSearchForm from "../../molecules/MultiSelectSearchForm";
+import PasswordCheckForm from "../../molecules/PasswordCheckForm";
 
 const formatDate = (date: DateValue | undefined): DateValue | undefined => {
   if (typeof date === "string" && date !== "") {
@@ -70,6 +71,23 @@ const GenericForm = ({ form, fields }: Props) => {
             key={formField.name}
             {...props}
             {...form.register(formField.name)}
+          />
+        );
+      case "check_password":
+        return (
+          <Controller
+            name={formField.name}
+            control={form.control}
+            key={formField.name}
+            render={({ field }) => {
+              return (
+                <PasswordCheckForm
+                  {...props}
+                  {...field}
+                  ref={field.ref}
+                />
+              );
+            }}
           />
         );
       case "number":

@@ -48,3 +48,9 @@ export async function getAccessCompanyService(): Promise<CompanyAccessSchema | n
     method: "GET",
   });
 }
+export async function getCurrentCompanyDataService(): Promise<CompanySchema | null> {
+  return await fetchClient({
+    endpoint: endpoint + "/current",
+    method: "GET",
+  });
+}

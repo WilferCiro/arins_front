@@ -5,7 +5,7 @@ import AsyncButton from "@/presentation/components/atoms/AsyncButton";
 import FormModal from "@/presentation/components/organisms/FormModal";
 import GenericForm from "@/presentation/components/organisms/GenericForm";
 import { useCustomForm } from "@/presentation/hooks/useCustomForm";
-import { Button, Flex, Grid, Group } from "@mantine/core";
+import { Button, Grid, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconCirclePlus, IconDownload } from "@tabler/icons-react";
 import { ReactElement, useEffect } from "react";

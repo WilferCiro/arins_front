@@ -1,8 +1,15 @@
-import { UserSchema } from "@/domain/schemas/UserSchema";
+import { UserPasswordSchema, UserSchema } from "@/domain/schemas/UserSchema";
 import { fetchClient } from "../client/fetchClient";
 import { appConfig } from "../config/app_config";
 
 const endpoint = `${appConfig.API_BACKEND_URL}/users`;
+
+export async function getProfileDataService(): Promise<UserSchema | null> {
+  return await fetchClient({
+    endpoint: endpoint + "/profile",
+    method: "GET",
+  });
+}
 
 export async function addUserService(
   data: UserSchema
@@ -21,6 +28,15 @@ export async function editUserService(
     endpoint: `${endpoint}/${data._id}`,
     method: "PATCH",
     body: { ...data, _id: undefined },
+  });
+}
+export async function editUserPassword(
+  data: UserPasswordSchema
+): Promise<UserSchema | null> {
+  return await fetchClient({
+    endpoint: `${endpoint}/password`,
+    method: "PATCH",
+    body: { ...data },
   });
 }
 

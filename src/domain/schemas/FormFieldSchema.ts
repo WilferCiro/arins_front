@@ -18,18 +18,19 @@ interface FormFieldCommonSchema {
     | "select_search"
     | "multiselect"
     | "multiselect_search"
-    | "file";
+    | "file"
+    | "check_password";
   initialValue?: string | number | boolean;
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
   leftSection?: React.ReactNode;
   rightSection?: React.ReactNode;
-  validate?: Yup.NumberSchema<number | undefined, Yup.AnyObject, undefined, "">;
+  validate?: any;
 }
 export type FormFieldSchema =
   | (FormFieldCommonSchema & {
-      type: "text" | "textarea" | "email" | "password" | "checkbox";
+      type: "text" | "textarea" | "email" | "password" | "check_password" | "checkbox";
     })
   | (FormFieldCommonSchema & {
       type: "select" | "multiselect";
