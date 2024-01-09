@@ -2,7 +2,7 @@
 import { appConfig } from "../config/app_config";
 
 const encryptWithPublicKey = () => {
-  const data = `${appConfig.KEY_KEYWORD}-${new Date().getMinutes()}`;
+  const data = `${appConfig.KEY_KEYWORD}`;
   return data;
   /*const bufferData = Buffer.from(data, "utf8");
   const bufferPublicKey = Buffer.from(appConfig.PUBLIC_KEY, "utf8");

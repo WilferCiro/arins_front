@@ -51,13 +51,19 @@ export const getCompaniesFormAdd = (): FormFieldSchema[] => {
           value: "Educación",
           label: "Educación",
         },
+        {
+          value: "Comercio",
+          label: "Comercio",
+        },
+        {
+          value: "Pública",
+          label: "Pública",
+        },
+        {
+          value: "Otra",
+          label: "Otra",
+        },
       ],
-    },
-    {
-      type: "checkbox",
-      name: "active",
-      label: "¿Es activo?",
-      initialValue: true,
     },
   ];
 

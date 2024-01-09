@@ -18,6 +18,7 @@ interface Props<T> {
   fieldsFormAdd?: FormFieldSchema[];
   actions?: TableActionsSchema<T>;
   refreshTable: () => void;
+  disabledAdd?: boolean;
 }
 
 const TableCrudHeader = <T extends object>({
@@ -28,6 +29,7 @@ const TableCrudHeader = <T extends object>({
   fieldsFormAdd,
   actions,
   refreshTable,
+  disabledAdd,
 }: Props<T>) => {
   const [openedAddModal, { open: openAddModal, close: closeAddModal }] =
     useDisclosure(false);
@@ -100,6 +102,12 @@ const TableCrudHeader = <T extends object>({
                   variant="light"
                   color="blue"
                   rightSection={<IconCirclePlus />}
+                  disabled={disabledAdd ?? false}
+                  title={
+                    disabledAdd
+                      ? "No puedes crear más registros"
+                      : "Click para crear un nuevo registro"
+                  }
                 >
                   Agregar
                 </Button>
