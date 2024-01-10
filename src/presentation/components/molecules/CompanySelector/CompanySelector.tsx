@@ -59,13 +59,15 @@ const CompanySelector = () => {
               );
             })}
           </Combobox.Options>
-          <Combobox.Footer>
-            <Button variant="light" color="green" onClick={open}>
-              <Group>
-                <IconPlus /> Agregar compañía
-              </Group>
-            </Button>
-          </Combobox.Footer>
+          {(tokenData?.companies || []).length <= 9 ? (
+            <Combobox.Footer>
+              <Button variant="light" color="green" onClick={open}>
+                <Group>
+                  <IconPlus /> Agregar compañía
+                </Group>
+              </Button>
+            </Combobox.Footer>
+          ) : null}
         </Combobox.Dropdown>
       </Combobox>
     </>

@@ -27,13 +27,14 @@ import {
 import { IconArrowRight, IconCash } from "@tabler/icons-react";
 import Link from "next/link";
 import { useMemo } from "react";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 interface Props {
   stores: StoreSchema[] | null;
 }
 
 const SalesView = ({ stores }: Props) => {
+  const queryClient = useQueryClient();
   const formAdd = useMemo(() => getSalesFormAdd(), []);
   const formFilter = useMemo(
     () => getSalesFormFilter({ stores: stores || [] }),
@@ -69,6 +70,11 @@ const SalesView = ({ stores }: Props) => {
 
   const onAdd = async (values: SaleSchema) => {
     const res = await mutationAdd.mutateAsync(values);
+    if (res) {
+      await queryClient.refetchQueries([`sale_active_id`], {
+        active: true,
+      });
+    }
     return res !== null;
   };
 
