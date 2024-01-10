@@ -24,11 +24,13 @@ const CustomTableFooter = ({
           {total < count * page ? total : count * page} de {total}
         </p>
       </div>
-      <Pagination
-        value={page}
-        onChange={changePage}
-        total={Math.ceil((total || 0) / count)}
-      />
+      {Math.ceil((total || 0) / count) > 1 && (
+        <Pagination
+          value={page}
+          onChange={changePage}
+          total={Math.ceil((total || 0) / count)}
+        />
+      )}
       <Group>
         Items Por página
         <Select

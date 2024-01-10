@@ -52,6 +52,9 @@ const StoresView = () => {
         columns={columns}
         endpoint={"stores"}
         server={appConfig.API_BACKEND_URL}
+        limits={{
+          add: 3
+        }}
         fieldsForms={{
           add: formAdd,
           edit: formEdit,

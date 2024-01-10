@@ -1,4 +1,4 @@
-import { CompanySchema } from "@/domain/schemas/CompanySchema";
+import { CompanyAccessSchema, CompanySchema } from "@/domain/schemas/CompanySchema";
 import { fetchClient } from "../client/fetchClient";
 import { appConfig } from "../config/app_config";
 
@@ -39,5 +39,18 @@ export async function exportCompanyService(): Promise<null> {
     method: "POST",
     isFile: true,
     fileName: "Companies.xlsx",
+  });
+}
+
+export async function getAccessCompanyService(): Promise<CompanyAccessSchema | null> {
+  return await fetchClient({
+    endpoint: endpoint + "/access",
+    method: "GET",
+  });
+}
+export async function getCurrentCompanyDataService(): Promise<CompanySchema | null> {
+  return await fetchClient({
+    endpoint: endpoint + "/current",
+    method: "GET",
   });
 }

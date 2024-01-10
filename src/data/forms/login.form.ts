@@ -33,13 +33,6 @@ export const getSignupFormDefinition = (): FormFieldSchema[] => {
       required: true,
     },
     {
-      type: "password",
-      name: "password",
-      label: "Contraseña",
-      placeholder: "Contraseña",
-      required: true,
-    },
-    {
       type: "text",
       name: "firstName",
       label: "Nombre(s)",
@@ -51,6 +44,13 @@ export const getSignupFormDefinition = (): FormFieldSchema[] => {
       name: "lastName",
       label: "Apellido(s)",
       placeholder: "Ingrese su(s) apellido(s)",
+      required: true,
+    },
+    {
+      type: "check_password",
+      name: "password",
+      label: "Contraseña",
+      placeholder: "Contraseña",
       required: true,
     },
   ];

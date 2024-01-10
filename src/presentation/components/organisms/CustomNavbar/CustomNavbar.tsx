@@ -50,7 +50,7 @@ const CustomNavbar = ({ desktopOpened, toggleDesktop }: Props) => {
         leftSection={<IconHome2 size="1rem" stroke={1.5} />}
         className={styles.link}
       />
-      <NavLink
+      {/*<NavLink
         component={Link}
         href="/admin/companies"
         label="Compañías"
@@ -66,6 +66,15 @@ const CustomNavbar = ({ desktopOpened, toggleDesktop }: Props) => {
         color="red"
         active={pathname === "/admin/users"}
         leftSection={<IconUsers size="1rem" stroke={1.5} />}
+        className={styles.link}
+  />*/}
+      <NavLink
+        component={Link}
+        href="/customer/company"
+        label="Compañía"
+        color="red"
+        active={pathname === "/customer/company"}
+        leftSection={<IconBuilding size="1rem" stroke={1.5} />}
         className={styles.link}
       />
 

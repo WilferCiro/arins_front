@@ -32,6 +32,7 @@ const getValidations = (fields: FormFieldSchema[]) => {
     let validator: any;
 
     switch (field.type) {
+      case "check_password":
       case "password":
       case "text":
         validator = Yup.string();

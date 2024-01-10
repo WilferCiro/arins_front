@@ -27,6 +27,10 @@ interface Props<T extends object> {
 
   actions?: TableActionsSchema<T>;
 
+  limits?: {
+    add: number;
+  };
+
   fieldsForms?: {
     edit?: FormFieldSchema[];
     add?: FormFieldSchema[];
@@ -43,6 +47,8 @@ const CrudTable = <T extends object>({
   headerRight,
   actions,
   fieldsForms,
+
+  limits
 }: Props<T>) => {
   const queryClient = useQueryClient();
 
@@ -125,6 +131,7 @@ const CrudTable = <T extends object>({
           fieldsFormAdd={fieldsForms?.add}
           actions={actions}
           refreshTable={refreshTable}
+          disabledAdd={limits?.add !== undefined && limits.add <= (data?.data || []).length}
         />
       </header>
       <Box pos="relative">
