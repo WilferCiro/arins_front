@@ -5,4 +5,5 @@ export interface SaleTableSchema {
   iva: number;
   quantity: number;
   active: boolean;
+  updated: boolean;
 }

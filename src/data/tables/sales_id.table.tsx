@@ -15,10 +15,12 @@ import { IconTrash } from "@tabler/icons-react";
 
 interface Props {
   onDeleteProduct: (_id: string) => void;
+  onUpdateQuanity: (_id: string, value: number | string) => void;
 }
 
 export const getSaleTableDefinition = ({
   onDeleteProduct,
+  onUpdateQuanity
 }: Props): Column<SaleTableSchema>[] => {
   return [
     {
@@ -48,19 +50,21 @@ export const getSaleTableDefinition = ({
       accessor: "quantity",
       Cell: ({ cell }) => {
         const active = cell.row.original.active;
+        const updated = cell.row.original.updated;
         const value = cell.value;
         return (
           <>
-            {active ? (
+            {active || updated ? (
               <FocusTrap active={true}>
                 <NumberInput
                   value={value}
                   w="100px"
-                  onFocus={(e) => e.target.select()}
+                  onChange={(value) => onUpdateQuanity(cell.row.original.product_id, value)}
+                  onFocus={(e) => !updated ? e.target.select() : null}
                 />
               </FocusTrap>
             ) : (
-              <NumberInput value={value} w="100px" />
+              <NumberInput value={value} w="100px" onChange={(value) => onUpdateQuanity(cell.row.original.product_id, value)} />
             )}
           </>
         );

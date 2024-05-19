@@ -9,9 +9,9 @@ import {
 } from "@/data/services/sales.services";
 import { getSalesTableDefinition } from "@/data/tables/sales.table";
 import getDateString from "@/domain/adapters/getDateString";
-import { SaleSchema } from "@/domain/schemas/SaleSchema";
+import { SaleSchema, SaleSimpleSchema } from "@/domain/schemas/SaleSchema";
 import { StoreSchema } from "@/domain/schemas/StoreSchema";
-import PageTitle from "@/presentation/components/atoms/PageTitle";
+import PageTitle from "@/presentation/components/molecules/PageTitle";
 import CardInfo from "@/presentation/components/molecules/CardInfo";
 import CrudTable from "@/presentation/components/organisms/CrudTable";
 import { useAuth } from "@/presentation/context/ContextAuth";
@@ -68,7 +68,7 @@ const SalesView = ({ stores }: Props) => {
   };
   const columns = getSalesTableDefinition({ onExportRow });
 
-  const onAdd = async (values: SaleSchema) => {
+  const onAdd = async (values: SaleSimpleSchema) => {
     const res = await mutationAdd.mutateAsync(values);
     if (res) {
       await queryClient.refetchQueries([`sale_active_id`], {
@@ -133,7 +133,17 @@ const SalesView = ({ stores }: Props) => {
                   </Button>
                 </Link>
               ) : (
-                <>Crea la venta del día en la tabla</>
+                <>
+                  <Button
+                    color="blue"
+                    fullWidth
+                    mt="md"
+                    radius="md"
+                    disabled={true}
+                    rightSection={<IconArrowRight />}
+                  >
+                    Crea el registro en la tabla
+                  </Button></>
               )}
             </Card>
           );
@@ -141,7 +151,7 @@ const SalesView = ({ stores }: Props) => {
       </Group>
       <Space m="lg" />
 
-      <CrudTable<SaleSchema>
+      <CrudTable<SaleSimpleSchema>
         columns={columns}
         endpoint={"sales"}
         server={appConfig.API_BACKEND_URL}

@@ -13,7 +13,7 @@ import {
 } from "@/data/services/products.services";
 import { getProductsTableDefinition } from "@/data/tables/products.table";
 import { ProductSchema } from "@/domain/schemas/ProductSchema";
-import PageTitle from "@/presentation/components/atoms/PageTitle";
+import PageTitle from "@/presentation/components/molecules/PageTitle";
 import CrudTable from "@/presentation/components/organisms/CrudTable";
 import ModalMassiveProducts from "@/presentation/components/organisms/ModalMassiveProducts";
 import { ContextAuth } from "@/presentation/context/ContextAuth";

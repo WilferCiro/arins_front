@@ -13,7 +13,7 @@ import {
 } from "@/data/services/assets.services";
 import { getAssetsTableDefinition } from "@/data/tables/assets.table";
 import { AssetSchema } from "@/domain/schemas/AssetSchema";
-import PageTitle from "@/presentation/components/atoms/PageTitle";
+import PageTitle from "@/presentation/components/molecules/PageTitle";
 import CrudTable from "@/presentation/components/organisms/CrudTable";
 import ModalMassiveAssets from "@/presentation/components/organisms/ModalMassiveAssets";
 import { useAuth } from "@/presentation/context/ContextAuth";

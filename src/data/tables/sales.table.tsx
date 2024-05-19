@@ -1,28 +1,12 @@
 import getFullDate from "@/domain/adapters/getFullDate";
 import { Column } from "react-table";
 import BadgeActive from "@/presentation/components/atoms/BadgeActive/BadgeActive";
-import { SaleSchema } from "@/domain/schemas/SaleSchema";
+import { SaleSchema, SaleSimpleSchema } from "@/domain/schemas/SaleSchema";
 import { getPriceFormat } from "@/domain/adapters/getPriceFormat";
 import { chechCurrentDate } from "@/domain/adapters/checkCurrentDate";
 import AsyncButton from "@/presentation/components/atoms/AsyncButton";
+import FormSaleResume from "@/presentation/components/organisms/FormSaleResume";
 
-const getTotalSales = (sale: SaleSchema) => {
-  const prods = sale.sales.flatMap((s) => s.products);
-  return prods.reduce((accumulator, dt) => {
-    return dt.quantity * dt.price + accumulator;
-  }, 0);
-};
-const getTotalSalesIva = (sale: SaleSchema) => {
-  const prods = sale.sales.flatMap((s) => s.products);
-  return prods.reduce((accumulator, dt) => {
-    return dt.quantity * dt.price * (dt.iva / 100) + accumulator;
-  }, 0);
-};
-const getTotalOrders = (sale: SaleSchema) => {
-  return sale.orders.reduce((accumulator, dt) => {
-    return dt.price + accumulator;
-  }, 0);
-};
 
 interface Props {
   onExportRow: (_id: string) => Promise<boolean>;
@@ -30,7 +14,7 @@ interface Props {
 
 export const getSalesTableDefinition = ({
   onExportRow,
-}: Props): Column<SaleSchema>[] => {
+}: Props): Column<SaleSimpleSchema>[] => {
   return [
     {
       Header: "Estado",
@@ -54,14 +38,14 @@ export const getSalesTableDefinition = ({
       Header: "Total ventas",
       Cell: ({ cell }) => {
         const original = cell.row.original;
-        return <>{getPriceFormat(getTotalSales(original))}</>;
+        return <>{getPriceFormat(original.sales.total)}</>;
       },
     },
     {
       Header: "Total pedidos",
       Cell: ({ cell }) => {
         const original = cell.row.original;
-        return <>{getPriceFormat(getTotalOrders(original))}</>;
+        return <>{getPriceFormat(original.orders.total)}</>;
       },
     },
     {
@@ -71,9 +55,7 @@ export const getSalesTableDefinition = ({
         return (
           <>
             {getPriceFormat(
-              original.initialMoney +
-                getTotalSales(original) -
-                getTotalOrders(original)
+              original.finalMoney
             )}
           </>
         );
@@ -83,21 +65,21 @@ export const getSalesTableDefinition = ({
       Header: "Iva ventas",
       Cell: ({ cell }) => {
         const original = cell.row.original;
-        return <>{getPriceFormat(getTotalSalesIva(original))}</>;
+        return <>{getPriceFormat(original.sales.iva)}</>;
       },
     },
     {
       Header: "Nro. Ventas",
       Cell: ({ cell }) => {
         const original = cell.row.original;
-        return <>{original.sales.length}</>;
+        return <>{original.sales.total}</>;
       },
     },
     {
       Header: "Nro. Pedidos",
       Cell: ({ cell }) => {
         const original = cell.row.original;
-        return <>{original.orders.length}</>;
+        return <>{original.orders.total}</>;
       },
     },
     {
@@ -132,5 +114,22 @@ export const getSalesTableDefinition = ({
         );
       },
     },
+    {
+      Header: "Resumen",
+      Cell: ({ cell }) => {
+        const original = cell.row.original;
+        return (
+          <>
+            {original._id === undefined ? (
+              <></>
+            ) : (
+              <FormSaleResume saleId={original._id} />
+            )}
+          </>
+        );
+      },
+    },
+
+
   ];
 };

@@ -7,7 +7,7 @@ import {
 } from "@/data/services/stores.services";
 import { getStoresTableDefinition } from "@/data/tables/stores.table";
 import { StoreSchema } from "@/domain/schemas/StoreSchema";
-import PageTitle from "@/presentation/components/atoms/PageTitle";
+import PageTitle from "@/presentation/components/molecules/PageTitle";
 import CrudTable from "@/presentation/components/organisms/CrudTable";
 import { useAuth } from "@/presentation/context/ContextAuth";
 import { Divider } from "@mantine/core";
