@@ -131,7 +131,7 @@ const SalesIdView = ({ sale_id }: Props) => {
             }}
             value={null}
             hiddenInputProps={{
-              value: undefined,
+              // value: undefined,
               autoFocus: false,
             }}
             placeholder="Selecciona el producto"
