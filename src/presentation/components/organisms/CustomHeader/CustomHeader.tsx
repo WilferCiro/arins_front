@@ -10,6 +10,7 @@ import {
 } from "@tabler/icons-react";
 import {
   Avatar,
+  Box,
   Burger,
   Group,
   Menu,
@@ -21,6 +22,7 @@ import Image from "next/image";
 import CompanySelector from "../../molecules/CompanySelector/CompanySelector";
 import { useContext } from "react";
 import { ContextAuth } from "@/presentation/context/ContextAuth";
+import styles from "./styles.module.css";
 
 interface Props {
   toggleDesktop?: () => void;
@@ -72,7 +74,7 @@ const CustomHeader = ({
             style={{ display: desktopOpened ? "none" : "block" }}
           />
         </>
-        <div>
+        <div className={styles.logo}>
           <Image
             src="/images/logos/logo_large.png"
             alt="Logo"

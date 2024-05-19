@@ -1,7 +1,7 @@
 "use client";
 import { getReportsInventoryForm } from "@/data/forms/inventory_reports.form";
 import AsyncButton from "@/presentation/components/atoms/AsyncButton";
-import PageTitle from "@/presentation/components/atoms/PageTitle";
+import PageTitle from "@/presentation/components/molecules/PageTitle";
 import GenericForm from "@/presentation/components/organisms/GenericForm";
 import { useAuth } from "@/presentation/context/ContextAuth";
 import { useCustomForm } from "@/presentation/hooks/useCustomForm";

@@ -10,7 +10,7 @@ import {
 } from "@/data/services/dependencies.services";
 import { getDependenciesTableDefinition } from "@/data/tables/dependencies.table";
 import { DependencySchema } from "@/domain/schemas/DependencySchema";
-import PageTitle from "@/presentation/components/atoms/PageTitle";
+import PageTitle from "@/presentation/components/molecules/PageTitle";
 import CrudTable from "@/presentation/components/organisms/CrudTable";
 import { ContextAuth, useAuth } from "@/presentation/context/ContextAuth";
 import { Divider } from "@mantine/core";

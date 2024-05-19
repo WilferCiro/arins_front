@@ -28,6 +28,27 @@ export interface SaleSchema {
   createdAt: Date;
 }
 
+export interface SaleSimpleSchema {
+  _id?: string;
+
+  initialMoney: number;
+  finalMoney: number;
+  orders: {
+    total: number;
+    count: number;
+  },
+  sales: {
+    total: number;
+    iva: number;
+    count: number;
+  }
+
+  store: StoreSchema,
+  store_id: string;
+
+  createdAt: Date;
+}
+
 export interface SaleAddSchema {
   initialMoney: number;
 }

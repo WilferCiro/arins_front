@@ -7,7 +7,7 @@ import {
 import { getSaleTableDefinition } from "@/data/tables/sales_id.table";
 import { getPriceFormat } from "@/domain/adapters/getPriceFormat";
 import BarcodeScanner from "@/presentation/components/atoms/BarcodeScanner";
-import PageTitle from "@/presentation/components/atoms/PageTitle";
+import PageTitle from "@/presentation/components/molecules/PageTitle";
 import CardInfo from "@/presentation/components/molecules/CardInfo";
 import TableComponent from "@/presentation/components/molecules/TableComponent";
 import CardSummarySale from "@/presentation/components/organisms/CardSummarySale";
@@ -28,6 +28,7 @@ import { notifications } from "@mantine/notifications";
 import { IconCash } from "@tabler/icons-react";
 import { useRef } from "react";
 import { useMutation, useQuery } from "react-query";
+import FormSaleResume from "@/presentation/components/organisms/FormSaleResume";
 
 interface Props {
   sale_id: string;
@@ -54,10 +55,12 @@ const SalesIdView = ({ sale_id }: Props) => {
     }
   );
 
-  const { dataTable, deleteDataTableRow, addProduct, emptyDataTable } =
+  const { dataTable, deleteDataTableRow, addProduct, updateQuanity, emptyDataTable } =
     useSaleView();
+  
   const columns = getSaleTableDefinition({
     onDeleteProduct: deleteDataTableRow,
+    onUpdateQuanity: updateQuanity,
   });
   const mutationCreate = useMutation({
     mutationFn: createSaleSaleService,
@@ -172,34 +175,7 @@ const SalesIdView = ({ sale_id }: Props) => {
 
         <CardSummarySale dataTable={dataTable} storeProducts={storeProducts} />
       </Group>
-
-      {/*<Group>
-        <Card withBorder w={"250px"}>
-          <Flex direction={"column"}>
-            <Text size="xl" fw={700}>
-              $ 50.000,00
-            </Text>
-            <Text ta="right">Ventas</Text>
-          </Flex>
-        </Card>
-        <Card withBorder w={"250px"}>
-          <Flex direction={"column"}>
-            <Text size="xl" fw={700}>
-              $ 50.000,00
-            </Text>
-            <Text ta="right">Pedidos</Text>
-          </Flex>
-        </Card>
-
-        <Card withBorder w={"250px"}>
-          <Flex direction={"column"}>
-            <Text size="xl" fw={700}>
-              $ 50.000,00
-            </Text>
-            <Text ta="right">Última venta</Text>
-          </Flex>
-        </Card>
-              </Group>*/}
+      <FormSaleResume saleId={sale_id} />
       <Space m="lg" />
     </>
   );

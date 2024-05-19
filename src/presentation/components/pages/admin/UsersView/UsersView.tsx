@@ -18,7 +18,7 @@ import {
 import { getUsersTableDefinition } from "@/data/tables/users.table";
 import { CompanySchema } from "@/domain/schemas/CompanySchema";
 import { UserSchema } from "@/domain/schemas/UserSchema";
-import PageTitle from "@/presentation/components/atoms/PageTitle";
+import PageTitle from "@/presentation/components/molecules/PageTitle";
 import CrudTable from "@/presentation/components/organisms/CrudTable";
 import { Divider } from "@mantine/core";
 import { IconBuilding, IconUser, IconUsers } from "@tabler/icons-react";

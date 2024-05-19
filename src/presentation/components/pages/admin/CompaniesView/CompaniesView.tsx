@@ -11,7 +11,7 @@ import {
 } from "@/data/services/companies.services";
 import { getCompaniesTableDefinition } from "@/data/tables/companies.table";
 import { CompanySchema } from "@/domain/schemas/CompanySchema";
-import PageTitle from "@/presentation/components/atoms/PageTitle";
+import PageTitle from "@/presentation/components/molecules/PageTitle";
 import CrudTable from "@/presentation/components/organisms/CrudTable";
 import { Divider } from "@mantine/core";
 import { IconBuilding } from "@tabler/icons-react";

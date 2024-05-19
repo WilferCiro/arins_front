@@ -1,5 +1,5 @@
 "use client";
-import PageTitle from "@/presentation/components/atoms/PageTitle";
+import PageTitle from "@/presentation/components/molecules/PageTitle";
 import { useAuth } from "@/presentation/context/ContextAuth";
 import { Divider, Tabs } from "@mantine/core";
 import { IconHelp } from "@tabler/icons-react";

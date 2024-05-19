@@ -18,6 +18,16 @@ export async function getSaleByIdService(
     method: "GET",
   });
 }
+
+export async function getCompleteSaleByIdService(
+  id: string
+): Promise<SaleSchema | null> {
+  return await fetchClient({
+    endpoint: endpoint + "/" + id + "/complete",
+    method: "GET",
+  });
+}
+
 export async function getActiveSalesService(): Promise<
   SaleActiveSchema[] | null
 > {
