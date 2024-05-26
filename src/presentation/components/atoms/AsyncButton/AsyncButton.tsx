@@ -31,12 +31,12 @@ const AsyncButton = ({
   ...props
 }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
+
   const buttonClick = async () => {
     setLoading(true);
     try {
       await onClick();
     } catch (e) {
-      console.log(e);
       if (showError) {
         notifications.show({
           color: "red",

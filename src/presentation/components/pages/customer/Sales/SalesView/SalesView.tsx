@@ -58,12 +58,9 @@ const SalesView = ({ stores }: Props) => {
   const mutationExport = useMutation({
     mutationFn: exportSalesService,
   });
-  const mutationExportRow = useMutation({
-    mutationFn: exportSalesRowService,
-  });
 
   const onExportRow = async (_id: string) => {
-    const res = await mutationExportRow.mutateAsync(_id);
+    const res = await exportSalesRowService(_id);
     return res !== null;
   };
   const columns = getSalesTableDefinition({ onExportRow });

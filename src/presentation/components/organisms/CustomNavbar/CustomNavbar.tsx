@@ -182,7 +182,7 @@ const CustomNavbar = ({ desktopOpened, toggleDesktop }: Props) => {
       />*/}
       </NavLink>
       <NavLink
-        disabled={true}
+        disabled={false}
         label={
           <>
             Gestión de ingreso{" "}
@@ -200,9 +200,9 @@ const CustomNavbar = ({ desktopOpened, toggleDesktop }: Props) => {
         className={styles.link}
       >
         <NavLink
-          disabled={true}
+          disabled={false}
           component={Link}
-          href="#construct"
+          href="/customer/entry/users"
           label={
             <>
               Usuarios{" "}
@@ -212,12 +212,12 @@ const CustomNavbar = ({ desktopOpened, toggleDesktop }: Props) => {
             </>
           }
           color="red"
-          active={pathname === "/customer/ingress"}
+          active={pathname === "/customer/entry/users"}
           leftSection={<IconUser size="1rem" stroke={1.5} />}
           className={styles.link}
         />
         <NavLink
-          disabled={true}
+          disabled={false}
           component={Link}
           href="#construct"
           label={
@@ -229,7 +229,7 @@ const CustomNavbar = ({ desktopOpened, toggleDesktop }: Props) => {
             </>
           }
           color="red"
-          active={pathname === "/customer/ingress"}
+          active={pathname === "/customer/entry/work"}
           leftSection={<IconDoorExit size="1rem" stroke={1.5} />}
           className={styles.link}
         />

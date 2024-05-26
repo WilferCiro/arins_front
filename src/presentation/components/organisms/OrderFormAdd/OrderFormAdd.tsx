@@ -5,7 +5,6 @@ import { getSalesOrderFormAdd } from "@/data/forms/sales.form";
 import { useMemo } from "react";
 import { SaleOrderAddSchema } from "@/domain/schemas/SaleSchema";
 import { Button } from "@mantine/core";
-import { useMutation } from "react-query";
 import { addSaleOrderService } from "@/data/services/sales.services";
 
 interface Props {
@@ -17,10 +16,6 @@ const OrderFormAdd = ({sale_id}: Props) => {
   const formAdd = useMemo(() => getSalesOrderFormAdd(), []);
   const { form } = useCustomForm<SaleOrderAddSchema>(formAdd);
 
-  const mutationAdd = useMutation({
-    mutationFn: addSaleOrderService,
-  });
-
   const onAdd = async (): Promise<boolean> => {
     await form.trigger();
     const valid = form.formState.isValid;
@@ -31,7 +26,7 @@ const OrderFormAdd = ({sale_id}: Props) => {
         ...form.getValues(),
         sale_id
     }
-    const result = await mutationAdd.mutateAsync(
+    const result = await addSaleOrderService(
         data
     );
 

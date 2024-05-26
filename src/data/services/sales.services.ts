@@ -87,3 +87,13 @@ export async function exportSalesRowService(_id: string): Promise<null> {
     fileName: "Ventas.xlsx",
   });
 }
+
+export async function exportInvoiceService({ _id, sale_id }: { _id: string, sale_id: string }): Promise<null> {
+  return await fetchClient({
+    endpoint: `${endpoint}/invoice/${_id}`,
+    params: { sale_id },
+    method: "GET",
+    isFile: true,
+    fileName: "invoice.pdf",
+  });
+}

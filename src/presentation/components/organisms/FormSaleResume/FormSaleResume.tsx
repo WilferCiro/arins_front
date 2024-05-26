@@ -2,9 +2,9 @@ import { Box, Button, Card, Flex, Group, LoadingOverlay, Modal, Space, Tabs, Tex
 import React, { useEffect, useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import TableComponent from "../../molecules/TableComponent";
-import { getSalesOrderTableDefinition, getSalesTableDefinition } from "@/data/tables/sale_resume.table";
+import { getSalesOrderTableDefinition, getSalesTableResumeDefinition } from "@/data/tables/sale_resume.table";
 import { useQuery } from "react-query";
-import { getCompleteSaleByIdService, getSaleByIdService } from "@/data/services/sales.services";
+import { exportInvoiceService, getCompleteSaleByIdService, getSaleByIdService } from "@/data/services/sales.services";
 import CardInfo from "../../molecules/CardInfo";
 import { getPriceFormat } from "@/domain/adapters/getPriceFormat";
 import { getTotalLastSale, getTotalOrders, getTotalSales } from "@/data/utils/sales.utils";
@@ -32,11 +32,19 @@ const FormSaleResume = ({
     }
   );
 
+  const downloadInvoice = async (sale_id: string) => {
+    await exportInvoiceService({ _id: saleId, sale_id });
+    return true;
+  }
+  const columns = getSalesTableResumeDefinition({ downloadInvoice });
+
   useEffect(() => {
     if (opened) {
       refetch();
     }
   }, [opened, refetch]);
+
+  console.log("render");
 
   return (
     <>
@@ -76,7 +84,7 @@ const FormSaleResume = ({
           <Tabs.Panel value="messages">
             <Box pos="relative">
               <LoadingOverlay visible={isFetching} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
-              <TableComponent columns={getSalesTableDefinition()} data={data?.sales || []} />
+              <TableComponent columns={columns} data={data?.sales || []} />
             </Box>
           </Tabs.Panel>
         </Tabs>

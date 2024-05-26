@@ -6,6 +6,7 @@ export interface SaleSchema {
 
   initialMoney: number;
   sales: {
+    _id: string;
     products: {
       original: ProductSchema;
       original_id: string;
